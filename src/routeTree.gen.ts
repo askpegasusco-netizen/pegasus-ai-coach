@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as PanicRouteImport } from './routes/panic'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as MentalRouteImport } from './routes/mental'
@@ -17,6 +18,11 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CoachRouteImport } from './routes/coach'
 import { Route as IndexRouteImport } from './routes/index'
 
+const ProgressRoute = ProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PanicRoute = PanicRouteImport.update({
   id: '/panic',
   path: '/panic',
@@ -61,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/mental': typeof MentalRoute
   '/onboarding': typeof OnboardingRoute
   '/panic': typeof PanicRoute
+  '/progress': typeof ProgressRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +77,7 @@ export interface FileRoutesByTo {
   '/mental': typeof MentalRoute
   '/onboarding': typeof OnboardingRoute
   '/panic': typeof PanicRoute
+  '/progress': typeof ProgressRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,6 +88,7 @@ export interface FileRoutesById {
   '/mental': typeof MentalRoute
   '/onboarding': typeof OnboardingRoute
   '/panic': typeof PanicRoute
+  '/progress': typeof ProgressRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,6 +100,7 @@ export interface FileRouteTypes {
     | '/mental'
     | '/onboarding'
     | '/panic'
+    | '/progress'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,6 +110,7 @@ export interface FileRouteTypes {
     | '/mental'
     | '/onboarding'
     | '/panic'
+    | '/progress'
   id:
     | '__root__'
     | '/'
@@ -109,6 +120,7 @@ export interface FileRouteTypes {
     | '/mental'
     | '/onboarding'
     | '/panic'
+    | '/progress'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -119,10 +131,18 @@ export interface RootRouteChildren {
   MentalRoute: typeof MentalRoute
   OnboardingRoute: typeof OnboardingRoute
   PanicRoute: typeof PanicRoute
+  ProgressRoute: typeof ProgressRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/progress': {
+      id: '/progress'
+      path: '/progress'
+      fullPath: '/progress'
+      preLoaderRoute: typeof ProgressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/panic': {
       id: '/panic'
       path: '/panic'
@@ -183,7 +203,18 @@ const rootRouteChildren: RootRouteChildren = {
   MentalRoute: MentalRoute,
   OnboardingRoute: OnboardingRoute,
   PanicRoute: PanicRoute,
+  ProgressRoute: ProgressRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
