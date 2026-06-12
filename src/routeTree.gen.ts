@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PanicRouteImport } from './routes/panic'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as FitnessRouteImport } from './routes/fitness'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CoachRouteImport } from './routes/coach'
 import { Route as IndexRouteImport } from './routes/index'
@@ -23,6 +24,11 @@ const PanicRoute = PanicRouteImport.update({
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FitnessRoute = FitnessRouteImport.update({
+  id: '/fitness',
+  path: '/fitness',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/coach': typeof CoachRoute
   '/dashboard': typeof DashboardRoute
+  '/fitness': typeof FitnessRoute
   '/onboarding': typeof OnboardingRoute
   '/panic': typeof PanicRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/coach': typeof CoachRoute
   '/dashboard': typeof DashboardRoute
+  '/fitness': typeof FitnessRoute
   '/onboarding': typeof OnboardingRoute
   '/panic': typeof PanicRoute
 }
@@ -60,21 +68,36 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/coach': typeof CoachRoute
   '/dashboard': typeof DashboardRoute
+  '/fitness': typeof FitnessRoute
   '/onboarding': typeof OnboardingRoute
   '/panic': typeof PanicRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/coach' | '/dashboard' | '/onboarding' | '/panic'
+  fullPaths:
+    | '/'
+    | '/coach'
+    | '/dashboard'
+    | '/fitness'
+    | '/onboarding'
+    | '/panic'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/coach' | '/dashboard' | '/onboarding' | '/panic'
-  id: '__root__' | '/' | '/coach' | '/dashboard' | '/onboarding' | '/panic'
+  to: '/' | '/coach' | '/dashboard' | '/fitness' | '/onboarding' | '/panic'
+  id:
+    | '__root__'
+    | '/'
+    | '/coach'
+    | '/dashboard'
+    | '/fitness'
+    | '/onboarding'
+    | '/panic'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CoachRoute: typeof CoachRoute
   DashboardRoute: typeof DashboardRoute
+  FitnessRoute: typeof FitnessRoute
   OnboardingRoute: typeof OnboardingRoute
   PanicRoute: typeof PanicRoute
 }
@@ -93,6 +116,13 @@ declare module '@tanstack/react-router' {
       path: '/onboarding'
       fullPath: '/onboarding'
       preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fitness': {
+      id: '/fitness'
+      path: '/fitness'
+      fullPath: '/fitness'
+      preLoaderRoute: typeof FitnessRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -123,6 +153,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CoachRoute: CoachRoute,
   DashboardRoute: DashboardRoute,
+  FitnessRoute: FitnessRoute,
   OnboardingRoute: OnboardingRoute,
   PanicRoute: PanicRoute,
 }
