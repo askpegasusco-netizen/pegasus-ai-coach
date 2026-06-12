@@ -14,6 +14,7 @@ import { Route as PanicRouteImport } from './routes/panic'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as MentalRouteImport } from './routes/mental'
 import { Route as FitnessRouteImport } from './routes/fitness'
+import { Route as EcosystemRouteImport } from './routes/ecosystem'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as CoachRouteImport } from './routes/coach'
@@ -44,6 +45,11 @@ const FitnessRoute = FitnessRouteImport.update({
   path: '/fitness',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EcosystemRoute = EcosystemRouteImport.update({
+  id: '/ecosystem',
+  path: '/ecosystem',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -70,6 +76,7 @@ export interface FileRoutesByFullPath {
   '/coach': typeof CoachRoute
   '/community': typeof CommunityRoute
   '/dashboard': typeof DashboardRoute
+  '/ecosystem': typeof EcosystemRoute
   '/fitness': typeof FitnessRoute
   '/mental': typeof MentalRoute
   '/onboarding': typeof OnboardingRoute
@@ -81,6 +88,7 @@ export interface FileRoutesByTo {
   '/coach': typeof CoachRoute
   '/community': typeof CommunityRoute
   '/dashboard': typeof DashboardRoute
+  '/ecosystem': typeof EcosystemRoute
   '/fitness': typeof FitnessRoute
   '/mental': typeof MentalRoute
   '/onboarding': typeof OnboardingRoute
@@ -93,6 +101,7 @@ export interface FileRoutesById {
   '/coach': typeof CoachRoute
   '/community': typeof CommunityRoute
   '/dashboard': typeof DashboardRoute
+  '/ecosystem': typeof EcosystemRoute
   '/fitness': typeof FitnessRoute
   '/mental': typeof MentalRoute
   '/onboarding': typeof OnboardingRoute
@@ -106,6 +115,7 @@ export interface FileRouteTypes {
     | '/coach'
     | '/community'
     | '/dashboard'
+    | '/ecosystem'
     | '/fitness'
     | '/mental'
     | '/onboarding'
@@ -117,6 +127,7 @@ export interface FileRouteTypes {
     | '/coach'
     | '/community'
     | '/dashboard'
+    | '/ecosystem'
     | '/fitness'
     | '/mental'
     | '/onboarding'
@@ -128,6 +139,7 @@ export interface FileRouteTypes {
     | '/coach'
     | '/community'
     | '/dashboard'
+    | '/ecosystem'
     | '/fitness'
     | '/mental'
     | '/onboarding'
@@ -140,6 +152,7 @@ export interface RootRouteChildren {
   CoachRoute: typeof CoachRoute
   CommunityRoute: typeof CommunityRoute
   DashboardRoute: typeof DashboardRoute
+  EcosystemRoute: typeof EcosystemRoute
   FitnessRoute: typeof FitnessRoute
   MentalRoute: typeof MentalRoute
   OnboardingRoute: typeof OnboardingRoute
@@ -184,6 +197,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FitnessRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ecosystem': {
+      id: '/ecosystem'
+      path: '/ecosystem'
+      fullPath: '/ecosystem'
+      preLoaderRoute: typeof EcosystemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
@@ -220,6 +240,7 @@ const rootRouteChildren: RootRouteChildren = {
   CoachRoute: CoachRoute,
   CommunityRoute: CommunityRoute,
   DashboardRoute: DashboardRoute,
+  EcosystemRoute: EcosystemRoute,
   FitnessRoute: FitnessRoute,
   MentalRoute: MentalRoute,
   OnboardingRoute: OnboardingRoute,
