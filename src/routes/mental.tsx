@@ -5,7 +5,7 @@ import { AppShell, Card, Pill } from "@/components/AppShell";
 
 export const Route = createFileRoute("/mental")({
   head: () => ({ meta: [{ title: "Mind · Pegasus" }] }),
-  component: Mental;
+  component: Mental,
 });
 
 const SESSIONS = [
