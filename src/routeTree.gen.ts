@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ProgressRouteImport } from './routes/progress'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PanicRouteImport } from './routes/panic'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as MentalRouteImport } from './routes/mental'
@@ -24,6 +25,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const ProgressRoute = ProgressRouteImport.update({
   id: '/progress',
   path: '/progress',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PanicRoute = PanicRouteImport.update({
@@ -88,6 +94,7 @@ export interface FileRoutesByFullPath {
   '/mental': typeof MentalRoute
   '/onboarding': typeof OnboardingRoute
   '/panic': typeof PanicRoute
+  '/profile': typeof ProfileRoute
   '/progress': typeof ProgressRoute
 }
 export interface FileRoutesByTo {
@@ -101,6 +108,7 @@ export interface FileRoutesByTo {
   '/mental': typeof MentalRoute
   '/onboarding': typeof OnboardingRoute
   '/panic': typeof PanicRoute
+  '/profile': typeof ProfileRoute
   '/progress': typeof ProgressRoute
 }
 export interface FileRoutesById {
@@ -115,6 +123,7 @@ export interface FileRoutesById {
   '/mental': typeof MentalRoute
   '/onboarding': typeof OnboardingRoute
   '/panic': typeof PanicRoute
+  '/profile': typeof ProfileRoute
   '/progress': typeof ProgressRoute
 }
 export interface FileRouteTypes {
@@ -130,6 +139,7 @@ export interface FileRouteTypes {
     | '/mental'
     | '/onboarding'
     | '/panic'
+    | '/profile'
     | '/progress'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -143,6 +153,7 @@ export interface FileRouteTypes {
     | '/mental'
     | '/onboarding'
     | '/panic'
+    | '/profile'
     | '/progress'
   id:
     | '__root__'
@@ -156,6 +167,7 @@ export interface FileRouteTypes {
     | '/mental'
     | '/onboarding'
     | '/panic'
+    | '/profile'
     | '/progress'
   fileRoutesById: FileRoutesById
 }
@@ -170,6 +182,7 @@ export interface RootRouteChildren {
   MentalRoute: typeof MentalRoute
   OnboardingRoute: typeof OnboardingRoute
   PanicRoute: typeof PanicRoute
+  ProfileRoute: typeof ProfileRoute
   ProgressRoute: typeof ProgressRoute
 }
 
@@ -180,6 +193,13 @@ declare module '@tanstack/react-router' {
       path: '/progress'
       fullPath: '/progress'
       preLoaderRoute: typeof ProgressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/panic': {
@@ -266,6 +286,7 @@ const rootRouteChildren: RootRouteChildren = {
   MentalRoute: MentalRoute,
   OnboardingRoute: OnboardingRoute,
   PanicRoute: PanicRoute,
+  ProfileRoute: ProfileRoute,
   ProgressRoute: ProgressRoute,
 }
 export const routeTree = rootRouteImport
