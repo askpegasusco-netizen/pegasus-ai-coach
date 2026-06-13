@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { PegasusLogo } from "@/components/PegasusLogo";
-import { CHARACTERS } from "@/lib/pegasus";
 
 export const Route = createFileRoute("/onboarding")({
   head: () => ({ meta: [{ title: "Welcome to Pegasus — Onboarding" }] }),
