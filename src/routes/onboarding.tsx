@@ -8,6 +8,8 @@ import {
   Sparkles,
   ChevronDown,
   ChevronUp,
+  Upload,
+  Plus,
 } from "lucide-react";
 import { useState } from "react";
 import { PegasusLogo } from "@/components/PegasusLogo";
@@ -25,7 +27,6 @@ const STEPS = [
   "Lifestyle",
   "Coach persona",
   "Wearables",
-  "Plan reveal",
 ];
 
 type AccountSub = "choose" | "verify" | "name";
@@ -37,6 +38,8 @@ const MALE_COACHES = [
   { id: "ronaldo", name: "CR7", tag: "Siuuu Mode", sample: "Talent without working hard is nothing. Andiamo. ⚽", accent: "from-emerald-200 to-amber-200" },
   { id: "kendall", name: "Kendall Roy", tag: "L to the OG", sample: "We are going to absolutely *cook* today, fam.", accent: "from-stone-200 to-amber-100" },
   { id: "ali", name: "Muhammad Ali", tag: "Float Like a Butterfly", sample: "I am the greatest. I said that even before I knew I was.", accent: "from-amber-100 to-yellow-200" },
+  { id: "jordan", name: "MJ", tag: "Air Mentality", sample: "I've failed over and over. That is why I succeed.", accent: "from-red-200 to-stone-200" },
+  { id: "goggins", name: "Goggins", tag: "Stay Hard", sample: "You're not done. You're just getting warm. Stay hard.", accent: "from-zinc-200 to-stone-300" },
 ];
 
 const FEMALE_COACHES = [
@@ -45,15 +48,21 @@ const FEMALE_COACHES = [
   { id: "simone", name: "Simone Biles", tag: "GOAT Energy", sample: "Mental health first. Then we flip.", accent: "from-pink-200 to-amber-200" },
   { id: "taylor", name: "Tay", tag: "Era Mode", sample: "It's a new era — we're tracking sleep AND songwriting today.", accent: "from-stone-200 to-rose-200" },
   { id: "bey", name: "Beyoncé", tag: "Run the World", sample: "If we gonna do this, we gonna do it flawless.", accent: "from-amber-200 to-rose-300" },
+  { id: "megan", name: "Megan Rapinoe", tag: "Captain Mode", sample: "Be more, be better, be bigger than you've ever been before.", accent: "from-fuchsia-200 to-amber-200" },
+  { id: "michelle", name: "Michelle Obama", tag: "When They Go Low", sample: "Success isn't how much money you make — it's the difference you make.", accent: "from-amber-100 to-stone-200" },
 ];
 
 const GOALS = [
   "Weight control",
   "Fitness shape",
   "Muscle building",
+  "Strength training",
+  "Core balance",
+  "Cardio endurance",
+  "Flexibility & mobility",
   "Better sleep",
   "Stress reduction",
-  "Stronger mind",
+  "Mind resilience",
   "Better Diet",
   "Beat anxiety",
   "Train like a pro",
@@ -63,6 +72,49 @@ const GOALS = [
 
 const TIMELINES = ["2 weeks", "1 month", "3 months", "6 months", "9 months", "1 year"];
 const SLEEP_LABELS = ["Very Bad", "Bad", "OK", "Good", "Very Good"];
+const STRESS_LABEL = (n: number) =>
+  n <= 1 ? "Least stressed" : n <= 4 ? "Mild" : n === 5 ? "Moderate" : n <= 8 ? "High" : "Very stressed";
+const HEAD_OPTIONS = [
+  "Steady & focused",
+  "Foggy / can't concentrate",
+  "On edge / wired",
+  "Heavy / low mood",
+  "Burned out",
+  "Anxious / racing thoughts",
+  "Numb / disconnected",
+  "Genuinely good",
+];
+
+const HEALTH_COMMON = [
+  "Low back pain",
+  "Runner's knee",
+  "Shoulder impingement",
+  "Plantar fasciitis",
+  "Migraines",
+  "Hypertension",
+  "Pre-diabetes signs",
+  "Sleep apnea",
+];
+const HEALTH_FEMALE = [
+  "Low back pain",
+  "Runner's knee",
+  "Irregular period cycle",
+  "PCOS",
+  "Thyroid issues",
+  "Migraines",
+  "Plantar fasciitis",
+  "Iron / anemia",
+];
+const HEALTH_MALE = [
+  "Low back pain",
+  "Runner's knee",
+  "Shoulder impingement",
+  "Tennis elbow",
+  "Sciatica",
+  "Hypertension",
+  "High cholesterol",
+  "Pre-diabetes signs",
+];
 
 function Onboarding() {
   const [step, setStep] = useState(0);
@@ -75,6 +127,11 @@ function Onboarding() {
   const [heightUnit, setHeightUnit] = useState<"in" | "cm">("in");
   const [birthYear, setBirthYear] = useState(1998);
   const [birthMonth, setBirthMonth] = useState(1);
+  const [gender, setGender] = useState<"Woman" | "Man" | "Non-binary" | "Prefer not to say">("Woman");
+  const [restrictions, setRestrictions] = useState<string[]>([]);
+  const [labPhotos, setLabPhotos] = useState<string[]>([]);
+  const [diet, setDiet] = useState("Omnivore");
+  const [headState, setHeadState] = useState<string | null>(null);
   // account sub-flow
   const [accountSub, setAccountSub] = useState<AccountSub>("choose");
   const [provider, setProvider] = useState<Provider | null>(null);
@@ -82,12 +139,16 @@ function Onboarding() {
   // coach
   const [coachGender, setCoachGender] = useState<"male" | "female">("male");
   const [character, setCharacter] = useState("kobe");
+  const [customCoachName, setCustomCoachName] = useState("");
+  const [customCoachShots, setCustomCoachShots] = useState<string[]>([]);
   // plan reveal
   const [openDay, setOpenDay] = useState<string | null>("Mon");
   const navigate = useNavigate();
 
   const toggle = (v: string) =>
     setFocus((s) => (s.includes(v) ? s.filter((x) => x !== v) : [...s, v]));
+  const toggleRestriction = (v: string) =>
+    setRestrictions((s) => (s.includes(v) ? s.filter((x) => x !== v) : [...s, v]));
 
   const next = () => {
     // sub-flow for Account step
@@ -107,7 +168,8 @@ function Onboarding() {
       setAccountSub("choose");
       return;
     }
-    if (step < STEPS.length - 1) setStep(step + 1);
+    // After wearables (last questionnaire step), step becomes STEPS.length → plan reveal
+    if (step < STEPS.length) setStep(step + 1);
     else navigate({ to: "/dashboard" });
   };
   const back = () => {
@@ -117,26 +179,29 @@ function Onboarding() {
   };
 
   const coaches = coachGender === "male" ? MALE_COACHES : FEMALE_COACHES;
+  const healthList =
+    gender === "Woman" ? HEALTH_FEMALE : gender === "Man" ? HEALTH_MALE : HEALTH_COMMON;
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 90 }, (_, i) => currentYear - 13 - i);
   const months = [
     "January","February","March","April","May","June",
     "July","August","September","October","November","December",
   ];
+  const inQuestionnaire = step < STEPS.length;
 
   return (
     <div className="min-h-screen grain-bg">
       <header className="mx-auto flex max-w-3xl items-center justify-between px-6 py-6">
         <Link to="/"><PegasusLogo /></Link>
         <span className="text-xs font-medium text-muted-foreground">
-          Step {step + 1} of {STEPS.length} · {STEPS[step]}
+          {inQuestionnaire ? `Step ${step + 1} of ${STEPS.length} · ${STEPS[step]}` : "Your personalized plan"}
         </span>
       </header>
       <div className="mx-auto max-w-3xl px-6">
         <div className="h-1.5 w-full overflow-hidden rounded-full bg-secondary">
           <div
             className="h-full bg-primary transition-all"
-            style={{ width: `${((step + 1) / STEPS.length) * 100}%` }}
+            style={{ width: `${(Math.min(step + 1, STEPS.length) / STEPS.length) * 100}%` }}
           />
         </div>
       </div>
