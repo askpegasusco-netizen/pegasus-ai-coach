@@ -462,9 +462,17 @@ function Onboarding() {
                   </div>
                 </Field>
                 <Field label="Dietary preference">
-                  <Select options={["Omnivore", "Vegan", "Vegetarian", "Keto", "Mediterranean", "Pescatarian"]} />
+                  <select
+                    value={diet}
+                    onChange={(e) => setDiet(e.target.value)}
+                    className="w-full rounded-xl border border-input bg-card px-3 py-2 text-sm outline-none focus:border-primary"
+                  >
+                    {["Omnivore", "Vegan", "Vegetarian", "Keto", "Mediterranean", "Pescatarian", "Gluten-free", "Dairy-free", "Halal", "Kosher"].map((o) => (
+                      <option key={o}>{o}</option>
+                    ))}
+                  </select>
                 </Field>
-                <Field label={`Stress level: ${stress}/10`}>
+                <Field label={`Stress level: ${stress}/10 · ${STRESS_LABEL(stress)}`}>
                   <input
                     type="range"
                     min={1}
@@ -473,11 +481,18 @@ function Onboarding() {
                     onChange={(e) => setStress(Number(e.target.value))}
                     className="w-full accent-[color:var(--primary)]"
                   />
+                  <div className="mt-2 flex justify-between text-[11px] text-muted-foreground">
+                    <span>1 · Least</span>
+                    <span>5 · Moderate</span>
+                    <span>10 · Very stressed</span>
+                  </div>
                 </Field>
-                <Field label="How's your head right now?">
+                <Field label="How's your head right now? (pick one)">
                   <div className="flex flex-wrap gap-2">
-                    {["Steady", "Foggy", "On edge", "Heavy", "Genuinely good"].map((x) => (
-                      <Chip key={x}>{x}</Chip>
+                    {HEAD_OPTIONS.map((x) => (
+                      <Chip key={x} active={headState === x} onClick={() => setHeadState(x)}>
+                        {x}
+                      </Chip>
                     ))}
                   </div>
                 </Field>
