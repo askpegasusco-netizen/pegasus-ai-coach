@@ -542,7 +542,58 @@ function Onboarding() {
                     </button>
                   );
                 })}
+                <button
+                  onClick={() => setCharacter("others")}
+                  className={`group rounded-2xl border-2 border-dashed p-4 text-left transition ${
+                    character === "others"
+                      ? "border-primary bg-primary/10"
+                      : "border-border bg-card hover:border-primary/50"
+                  }`}
+                >
+                  <div className="flex h-16 items-center justify-center rounded-xl bg-secondary/50">
+                    <Plus className="h-6 w-6 text-primary" />
+                  </div>
+                  <div className="mt-3 flex items-center justify-between">
+                    <p className="font-display text-lg text-ink">Others</p>
+                    {character === "others" && <Check className="h-4 w-4 text-primary" />}
+                  </div>
+                  <p className="text-xs text-primary">Choose your own dream coach</p>
+                  <p className="mt-2 text-xs italic text-muted-foreground">
+                    Type a name — celeb, mom, dad, best friend.
+                  </p>
+                </button>
               </div>
+              {character === "others" && (
+                <div className="mt-4 space-y-3 rounded-2xl border border-primary/30 bg-primary/5 p-4">
+                  <Input
+                    placeholder="Who should Pega sound like? (e.g. David Goggins, Mom, Coach Mike)"
+                    value={customCoachName}
+                    onChange={(e) => setCustomCoachName(e.target.value)}
+                  />
+                  <label className="flex cursor-pointer items-center justify-between rounded-xl border border-dashed border-primary/40 bg-card px-4 py-3 text-sm">
+                    <span className="flex items-center gap-2 text-ink">
+                      <Upload className="h-4 w-4 text-primary" />
+                      Upload chat screenshots so AI learns their tone & approach
+                    </span>
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) =>
+                        setCustomCoachShots(Array.from(e.target.files ?? []).map((f) => f.name))
+                      }
+                    />
+                    <span className="text-xs font-semibold text-primary">
+                      {customCoachShots.length ? `${customCoachShots.length} added` : "Browse"}
+                    </span>
+                  </label>
+                  <p className="text-[11px] text-muted-foreground">
+                    Required when your pick isn't a public figure we can model (e.g. family or friends).
+                    Public icons are auto-modeled from interviews & writing.
+                  </p>
+              </div>
+              )}
               <p className="mt-3 text-[11px] text-muted-foreground">
                 Tip: more personas (Patrick Bateman, Hailey Bieber, custom) unlock in Coach.
               </p>
@@ -555,13 +606,26 @@ function Onboarding() {
               <div className="mt-6 grid gap-3 md:grid-cols-2">
                 {[
                   "Apple Watch",
+                  "Samsung Galaxy Watch",
+                  "Google Pixel Watch",
                   "Oura Ring",
+                  "Ultrahuman Ring Air",
+                  "RingConn Smart Ring",
                   "WHOOP 5.0",
                   "Meta Ray-Ban Glasses",
                   "Muse Headband",
                   "Eight Sleep",
                   "Garmin",
+                  "Polar Vantage",
+                  "Coros Pace",
+                  "Suunto Race",
                   "Fitbit",
+                  "Amazfit",
+                  "Withings ScanWatch",
+                  "Levels CGM",
+                  "Lumen Metabolism",
+                  "Apollo Neuro",
+                  "Bia Smart Yoga Pants",
                 ].map((d) => (
                   <label
                     key={d}
@@ -577,10 +641,12 @@ function Onboarding() {
               </p>
             </div>
           )}
-          {step === 7 && (
+          {step === STEPS.length && (
             <PlanReveal
               focus={focus}
               stress={stress}
+              diet={diet}
+              restrictions={restrictions}
               openDay={openDay}
               setOpenDay={setOpenDay}
             />
@@ -599,7 +665,12 @@ function Onboarding() {
                 disabled={step === 1 && accountSub === "choose" && !provider}
                 className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground disabled:opacity-40"
               >
-                {step === STEPS.length - 1 ? "Enter Pegasus" : "Continue"} <ArrowRight className="h-4 w-4" />
+                {step === STEPS.length
+                  ? "Enter Pegasus"
+                  : step === STEPS.length - 1
+                  ? "Reveal my plan"
+                  : "Continue"}{" "}
+                <ArrowRight className="h-4 w-4" />
               </button>
             </div>
           )}
