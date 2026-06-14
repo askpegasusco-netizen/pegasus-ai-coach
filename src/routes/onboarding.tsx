@@ -690,7 +690,7 @@ function Welcome({ onNext }: { onNext: () => void }) {
     <div className="text-center">
       <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Welcome</p>
       <h1 className="mt-3 font-display text-4xl text-ink md:text-5xl">
-        Meet Pega — Your New Degen AI BFF Coach
+        Meet Pega — Your New AI BFF Coach
       </h1>
       <ul className="mx-auto mt-6 max-w-md space-y-3 text-left">
         {bullets.map(({ icon: Icon, text }) => (
@@ -737,26 +737,63 @@ const DAY_PLAN: {
 function PlanReveal({
   focus,
   stress,
+  diet,
+  restrictions,
   openDay,
   setOpenDay,
 }: {
   focus: string[];
   stress: number;
+  diet: string;
+  restrictions: string[];
   openDay: string | null;
   setOpenDay: (d: string | null) => void;
 }) {
-  const dietHealthy = focus.includes("Better Diet") || focus.includes("Weight control")
-    ? ["Greek yogurt + berries", "Grilled salmon + quinoa", "Chicken stir-fry w/ veg", "Overnight oats", "Lentil soup"]
-    : focus.includes("Muscle building") || focus.includes("Train like a pro")
-    ? ["3-egg omelet + oats", "Chicken + rice + broccoli", "Steak + sweet potato", "Cottage cheese + nuts", "Protein smoothie"]
-    : ["Avocado toast + egg", "Mediterranean bowl", "Salmon poke", "Veggie pasta", "Yogurt parfait"];
-  const dietFun = ["Pizza slice 🍕", "Square of dark chocolate 🍫", "Boba 🧋", "Wine 🍷", "Ice cream scoop 🍨"];
+  // Per-day AI diet tuned to dietary preference + restrictions
+  const dietBank: Record<string, { meal: string; healthy: string; treat: string }[]> = {
+    base: [
+      { meal: "Breakfast", healthy: "3-egg omelet + oats + berries", treat: "Iced oat-milk latte" },
+      { meal: "Lunch", healthy: "Chicken + rice + broccoli", treat: "Square of dark chocolate" },
+      { meal: "Dinner", healthy: "Grilled salmon + quinoa + greens", treat: "Glass of wine" },
+    ],
+    Vegan: [
+      { meal: "Breakfast", healthy: "Tofu scramble + sourdough + spinach", treat: "Almond-milk mocha" },
+      { meal: "Lunch", healthy: "Tempeh grain bowl + tahini", treat: "Dark chocolate square" },
+      { meal: "Dinner", healthy: "Lentil curry + brown rice", treat: "Vegan ice cream scoop" },
+    ],
+    Vegetarian: [
+      { meal: "Breakfast", healthy: "Greek yogurt + granola + berries", treat: "Latte" },
+      { meal: "Lunch", healthy: "Halloumi grain bowl + veg", treat: "Dark chocolate" },
+      { meal: "Dinner", healthy: "Paneer stir-fry + brown rice", treat: "Glass of wine" },
+    ],
+    Keto: [
+      { meal: "Breakfast", healthy: "Avocado + 3 eggs + bacon", treat: "Bulletproof coffee" },
+      { meal: "Lunch", healthy: "Steak salad + olive oil", treat: "Keto fat-bomb" },
+      { meal: "Dinner", healthy: "Salmon + asparagus + butter", treat: "Berries + cream" },
+    ],
+    Mediterranean: [
+      { meal: "Breakfast", healthy: "Greek yogurt + honey + walnuts", treat: "Espresso" },
+      { meal: "Lunch", healthy: "Chickpea + tuna salad", treat: "Olive bread" },
+      { meal: "Dinner", healthy: "Grilled fish + veg + olive oil", treat: "Glass of red wine" },
+    ],
+    Pescatarian: [
+      { meal: "Breakfast", healthy: "Smoked salmon + avocado toast", treat: "Latte" },
+      { meal: "Lunch", healthy: "Tuna poke bowl", treat: "Dark chocolate" },
+      { meal: "Dinner", healthy: "Cod + sweet potato + greens", treat: "Boba" },
+    ],
+  };
+  const meals = dietBank[diet] ?? dietBank.base;
+  const restrictionNote =
+    restrictions.length && !restrictions.includes("None")
+      ? `Adjusted for: ${restrictions.filter((r) => r !== "None").slice(0, 3).join(", ")}`
+      : null;
   return (
     <div>
       <H>Your first 7 days, decoded.</H>
       <P>
-        Based on your answers, here's what Pega will run. Tap any day to expand. You can swap any
-        day before we start.
+        Based on your answers, here's what Pega will run. Tap any day to see the workout details
+        and an AI-suggested diet tuned to your <span className="font-semibold text-ink">{diet}</span> profile
+        {restrictionNote ? ` — ${restrictionNote.toLowerCase()}` : ""}. Swap any day before we start.
       </P>
       <div className="mt-6 space-y-2">
         {DAY_PLAN.map((d) => {
@@ -773,15 +810,38 @@ function PlanReveal({
                 {open ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
               </button>
               {open && (
-                <div className="border-t border-border bg-secondary/30 px-4 py-3">
-                  <ol className="space-y-1.5 text-sm text-ink">
-                    {d.steps.map((s, i) => (
-                      <li key={i} className="flex gap-2">
-                        <span className="text-primary">{i + 1}.</span>
-                        <span>{s}</span>
-                      </li>
-                    ))}
-                  </ol>
+                <div className="space-y-4 border-t border-border bg-secondary/30 px-4 py-3">
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-primary">Workout</p>
+                    <ol className="mt-1.5 space-y-1.5 text-sm text-ink">
+                      {d.steps.map((s, i) => (
+                        <li key={i} className="flex gap-2">
+                          <span className="text-primary">{i + 1}.</span>
+                          <span>{s}</span>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                  <div className="rounded-lg bg-card p-3">
+                    <div className="flex items-center justify-between">
+                      <p className="text-[10px] font-semibold uppercase tracking-wider text-primary">
+                        AI diet · {diet} · 80 / 20
+                      </p>
+                      <span className="text-[10px] text-muted-foreground">Tuned to {d.intensity.toLowerCase()} intensity</span>
+                    </div>
+                    <ul className="mt-2 space-y-1.5 text-sm text-ink">
+                      {meals.map((m) => (
+                        <li key={m.meal} className="flex flex-wrap gap-x-2">
+                          <span className="w-20 text-xs font-semibold text-muted-foreground">{m.meal}</span>
+                          <span className="flex-1">{m.healthy}</span>
+                          <span className="text-xs italic text-clay">+ treat: {m.treat}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    {restrictionNote && (
+                      <p className="mt-2 text-[10px] text-muted-foreground">{restrictionNote}</p>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
@@ -789,36 +849,20 @@ function PlanReveal({
         })}
       </div>
 
-      <div className="mt-6 rounded-2xl border border-border bg-card p-4">
-        <div className="flex items-center justify-between">
-          <p className="font-display text-lg text-ink">AI-suggested diet · 80 / 20</p>
-          <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Powered by Pega</span>
-        </div>
-        <p className="mt-1 text-xs text-muted-foreground">
-          Tuned to your goals{focus.length ? `: ${focus.slice(0, 3).join(", ")}` : ""}. 80% nutrient-dense, 20% buffer so life still tastes good.
-        </p>
-        <div className="mt-4 grid gap-3 md:grid-cols-2">
-          <div className="rounded-xl bg-secondary/50 p-3">
-            <p className="text-xs font-semibold text-ink">80% Healthy staples</p>
-            <ul className="mt-2 space-y-1 text-sm text-foreground">
-              {dietHealthy.map((x) => <li key={x}>· {x}</li>)}
-            </ul>
-          </div>
-          <div className="rounded-xl bg-clay/30 p-3">
-            <p className="text-xs font-semibold text-ink">20% Fun buffer</p>
-            <ul className="mt-2 space-y-1 text-sm text-foreground">
-              {dietFun.map((x) => <li key={x}>· {x}</li>)}
-            </ul>
-          </div>
-        </div>
-      </div>
-
       <div className="mt-6 rounded-2xl bg-ink p-4 text-cream">
         <p className="text-xs uppercase tracking-wider text-clay">Predicted outcome · 4 weeks</p>
         <p className="mt-1 font-display text-xl">
           -2.1% body fat · +14% HRV · stress drops from {stress}/10 → ~{Math.max(1, stress - 2)}/10
         </p>
+        <p className="mt-2 text-xs text-cream/70">
+          Plus Pega-only metrics you can't get from your watch: Peace Score, Metabolic Flex, Cardio Reserve.
+        </p>
       </div>
+      {focus.length > 0 && (
+        <p className="mt-3 text-xs text-muted-foreground">
+          Goals weighted in this plan: {focus.slice(0, 4).join(" · ")}
+        </p>
+      )}
     </div>
   );
 }
