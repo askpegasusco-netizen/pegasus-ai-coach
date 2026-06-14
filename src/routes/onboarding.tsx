@@ -319,7 +319,15 @@ function Onboarding() {
                   </div>
                 </Field>
                 <Field label="Gender">
-                  <Select options={["Woman", "Man", "Non-binary", "Prefer not to say"]} />
+                  <select
+                    value={gender}
+                    onChange={(e) => setGender(e.target.value as typeof gender)}
+                    className="w-full rounded-xl border border-input bg-card px-3 py-2 text-sm outline-none focus:border-primary"
+                  >
+                    {["Woman", "Man", "Non-binary", "Prefer not to say"].map((o) => (
+                      <option key={o}>{o}</option>
+                    ))}
+                  </select>
                 </Field>
                 <Field label="Weight">
                   <div className="flex gap-2">
@@ -359,7 +367,41 @@ function Onboarding() {
                   </div>
                 </Field>
                 <Field label="Health restrictions / injuries" className="md:col-span-2">
-                  <Input placeholder="e.g. low back, runner's knee" />
+                  <p className="mb-2 text-xs text-muted-foreground">
+                    Common picks for {gender === "Woman" ? "women" : gender === "Man" ? "men" : "your profile"} — tap all that apply.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {healthList.map((h) => (
+                      <Chip key={h} active={restrictions.includes(h)} onClick={() => toggleRestriction(h)}>
+                        {h}
+                      </Chip>
+                    ))}
+                    <Chip active={restrictions.includes("None")} onClick={() => toggleRestriction("None")}>
+                      None of these
+                    </Chip>
+                  </div>
+                  <Input className="mt-3" placeholder="Add your own (e.g. wrist pain)" />
+                  <label className="mt-3 flex cursor-pointer items-center justify-between rounded-xl border border-dashed border-primary/40 bg-primary/5 px-4 py-3 text-sm">
+                    <span className="flex items-center gap-2 text-ink">
+                      <Upload className="h-4 w-4 text-primary" />
+                      Upload photos / lab reports for AI screening
+                      <span className="hidden text-[10px] text-muted-foreground md:inline">
+                        — diabetes pre-symptoms, thyroid, irregular cycle, etc.
+                      </span>
+                    </span>
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*,application/pdf"
+                      className="hidden"
+                      onChange={(e) =>
+                        setLabPhotos(Array.from(e.target.files ?? []).map((f) => f.name))
+                      }
+                    />
+                    <span className="text-xs font-semibold text-primary">
+                      {labPhotos.length ? `${labPhotos.length} uploaded` : "Browse"}
+                    </span>
+                  </label>
                 </Field>
               </div>
               <p className="mt-4 text-xs text-muted-foreground">
