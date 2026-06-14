@@ -930,13 +930,6 @@ function Input({ className = "", ...props }: React.InputHTMLAttributes<HTMLInput
     />
   );
 }
-function Select({ options }: { options: string[] }) {
-  return (
-    <select className="w-full rounded-xl border border-input bg-card px-3 py-2 text-sm outline-none focus:border-primary">
-      {options.map((o) => <option key={o}>{o}</option>)}
-    </select>
-  );
-}
 function Chip({
   children,
   active,
