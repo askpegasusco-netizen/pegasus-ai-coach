@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Bell, Calendar, Flame, HeartPulse, Moon, ShieldAlert, Sparkles, Zap } from "lucide-react";
+import { Activity, ArrowRight, Bell, Calendar, Droplet, Flame, Gauge, HeartPulse, Moon, ShieldAlert, Sparkles, Wind, Zap } from "lucide-react";
 import { useState } from "react";
 import { AppShell, Card, Pill } from "@/components/AppShell";
 import { VIBES } from "@/lib/pegasus";
@@ -58,11 +58,36 @@ function Dashboard() {
       </Card>
 
       {/* Biometrics row */}
-      <div className="mb-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mb-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Stat icon={HeartPulse} label="HRV" value="68" unit="ms" delta="+4" tone="sage" />
         <Stat icon={Moon} label="Sleep" value="7h 42m" delta="92%" tone="sage" />
         <Stat icon={Flame} label="Strain" value="14.1" delta="moderate" />
         <Stat icon={Zap} label="Panic Index" value="2" delta="stable" tone="sage" />
+      </div>
+
+      {/* Cardio + Metabolic row */}
+      <div className="mb-2 flex items-center justify-between">
+        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          Cardiovascular & metabolic
+        </p>
+        <span className="text-[10px] text-muted-foreground">Synced 2 min ago</span>
+      </div>
+      <div className="mb-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Stat icon={Activity} label="Resting HR" value="54" unit="bpm" delta="−2" tone="sage" />
+        <Stat icon={Gauge} label="VO₂ Max" value="48.2" unit="ml/kg" delta="+0.6" tone="sage" />
+        <Stat icon={HeartPulse} label="Blood Pressure" value="118/76" delta="optimal" tone="sage" />
+        <Stat icon={Droplet} label="Glucose (CGM)" value="92" unit="mg/dL" delta="stable" tone="sage" />
+      </div>
+      <div className="mb-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Stat icon={Flame} label="Metabolic Flex" value="B+" delta="adapting" tone="sage" />
+        <Stat icon={Wind} label="Resp. Rate" value="14" unit="brpm" delta="normal" />
+        <Stat icon={Droplet} label="SpO₂" value="98" unit="%" delta="solid" tone="sage" />
+        <Stat icon={Sparkles} label="Peace Score™" value="74" delta="+18 · Pega-only" tone="sage" />
+      </div>
+      <div className="mb-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <Stat icon={Zap} label="Cardio Reserve™" value="62%" delta="green zone" tone="sage" />
+        <Stat icon={Flame} label="Inflammation Idx™" value="Low" delta="−12% w/w" tone="sage" />
+        <Stat icon={Activity} label="Recovery Battery" value="83%" delta="ready to push" tone="sage" />
       </div>
 
       {/* Today plan + intervention */}
