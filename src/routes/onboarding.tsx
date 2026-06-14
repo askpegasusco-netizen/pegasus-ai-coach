@@ -792,11 +792,11 @@ function Field({ label, children, className = "" }: { label: string; children: R
     </label>
   );
 }
-function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
+function Input({ className = "", ...props }: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
       {...props}
-      className="w-full rounded-xl border border-input bg-card px-3 py-2 text-sm outline-none focus:border-primary"
+      className={`w-full rounded-xl border border-input bg-card px-3 py-2 text-sm outline-none focus:border-primary ${className}`}
     />
   );
 }
