@@ -703,9 +703,9 @@ function Onboarding() {
 
 function Welcome({ onNext }: { onNext: () => void }) {
   const bullets = [
-    { icon: Watch, text: "Connect Apple Watch, Oura, Garmin & more." },
-    { icon: ShieldAlert, text: "Stop the Panic Attack Storm in 3 secs." },
-    { icon: Sparkles, text: "Talk to your favourite mentor with health plan." },
+    { icon: Watch, text: "Connect Apple Watch, Samsung Galaxy Watch, Oura, Garmin & more." },
+    { icon: ShieldAlert, text: "Auto stop the Panic Attack storm in 3 secs." },
+    { icon: Sparkles, text: "Vibe Training with your favourite mentor with health plan ⛑️🧢" },
   ];
   return (
     <div className="text-center">
