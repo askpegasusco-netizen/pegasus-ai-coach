@@ -943,15 +943,40 @@ function PlanReveal({
         })}
       </div>
 
-      <div className="mt-6 rounded-2xl bg-ink p-4 text-cream">
-        <p className="text-xs uppercase tracking-wider text-clay">Predicted outcome · 4 weeks</p>
-        <p className="mt-1 font-display text-xl">
-          -2.1% body fat · +14% HRV · stress drops from {stress}/10 → ~{Math.max(1, stress - 2)}/10
-        </p>
-        <p className="mt-2 text-xs text-cream/70">
-          Plus Pega-only metrics you can't get from your watch: Peace Score, Metabolic Flex, Cardio Reserve.
-        </p>
-      </div>
+      {(() => {
+        const mentalGoals = ["Stress reduction", "Mind resilience", "Beat anxiety", "Better sleep"];
+        const isMentalFirst =
+          focus.length > 0 &&
+          focus.some((g) => mentalGoals.includes(g)) &&
+          !focus.some((g) => ["Weight control", "Fitness shape", "Muscle building"].includes(g));
+        return (
+          <div className="mt-6 rounded-2xl bg-ink p-4 text-cream">
+            <p className="text-xs uppercase tracking-wider text-clay">Predicted outcome · 4 weeks</p>
+            {isMentalFirst ? (
+              <>
+                <p className="mt-1 font-display text-xl">
+                  Stress {stress}/10 → ~{Math.max(1, stress - 3)}/10 · +18% HRV · resting HR
+                  −6 bpm · sleep latency −12 min
+                </p>
+                <p className="mt-2 text-xs text-cream/70">
+                  We're skipping body-fat noise — your plan focuses on Peace Score™,
+                  Cardio Reserve™ & Inflammation Idx™. We'll revisit body comp only if you ask.
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="mt-1 font-display text-xl">
+                  -2.1% body fat · +14% HRV · stress drops from {stress}/10 → ~{Math.max(1, stress - 2)}/10
+                </p>
+                <p className="mt-2 text-xs text-cream/70">
+                  Plus Pega-only metrics you can't get from your watch: Peace Score, Metabolic
+                  Flex, Cardio Reserve.
+                </p>
+              </>
+            )}
+          </div>
+        );
+      })()}
       {focus.length > 0 && (
         <p className="mt-3 text-xs text-muted-foreground">
           Goals weighted in this plan: {focus.slice(0, 4).join(" · ")}
