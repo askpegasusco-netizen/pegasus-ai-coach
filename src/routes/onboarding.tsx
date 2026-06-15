@@ -315,9 +315,10 @@ function Onboarding() {
           )}
           {step === 2 && (
             <div>
-              <H>All About You</H>
+              <H>My OG Profile 🎤</H>
+              <P>add your info so your homie makes no-sus plan for ya</P>
               <div className="mt-6 grid gap-4 md:grid-cols-2">
-                <Field label="Birth month & year">
+                <Field label="My birth month & year">
                   <div className="flex gap-2">
                     <select
                       value={birthMonth}
@@ -339,7 +340,7 @@ function Onboarding() {
                     </select>
                   </div>
                 </Field>
-                <Field label="Gender">
+                <Field label="My gender">
                   <select
                     value={gender}
                     onChange={(e) => setGender(e.target.value as typeof gender)}
@@ -350,7 +351,7 @@ function Onboarding() {
                     ))}
                   </select>
                 </Field>
-                <Field label="Weight">
+                <Field label="My weight">
                   <div className="flex gap-2">
                     <Input placeholder={weightUnit === "lb" ? "160" : "73"} />
                     <UnitToggle
@@ -360,7 +361,7 @@ function Onboarding() {
                     />
                   </div>
                 </Field>
-                <Field label="Height">
+                <Field label="My height">
                   <div className="flex gap-2">
                     <Input placeholder={heightUnit === "in" ? `5'10"` : "178"} />
                     <UnitToggle
