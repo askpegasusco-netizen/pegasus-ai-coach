@@ -626,7 +626,7 @@ function Onboarding() {
               </div>
               )}
               <p className="mt-3 text-[11px] text-muted-foreground">
-                Tip: more personas (Patrick Bateman, Hailey Bieber, custom) unlock in Coach.
+                Tip: more personas (Batman, Girls' Generation, custom) unlock in Coach.
               </p>
             </div>
           )}
