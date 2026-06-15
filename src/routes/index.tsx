@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import {
   Activity,
   ArrowRight,
@@ -16,7 +17,7 @@ import { CHARACTERS } from "@/lib/pegasus";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Pegasus — Train like your role model. Life changing in JUST 3 seconds." },
+      { title: "Pegasus — Vibe Training with your role model. Change Your Life in Just 3 Seconds." },
       { name: "description", content: "Pegasus is the AI BFF coach that turns biometrics into action — character-coached fitness, automated mental-health intervention, and one-tap ecosystem booking." },
       { property: "og:title", content: "Pegasus — Your AI BFF Coach, head to toes" },
       { property: "og:description", content: "From motivation to action plan, in your role model's voice." },
@@ -24,6 +25,38 @@ export const Route = createFileRoute("/")({
   }),
   component: Index,
 });
+
+const VIBE_NAMES = [
+  "Kobe Bryant",
+  "CR7",
+  "Taylor Swift",
+  "Serena Williams",
+  "Simone Biles",
+  "Batman",
+  "Mom",
+  "Girls' Generation",
+];
+
+function VibeRotator() {
+  const [i, setI] = useState(0);
+  const [paused, setPaused] = useState(false);
+  useEffect(() => {
+    if (paused) return;
+    const t = setInterval(() => setI((x) => (x + 1) % VIBE_NAMES.length), 1600);
+    return () => clearInterval(t);
+  }, [paused]);
+  return (
+    <span
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onClick={() => setI((x) => (x + 1) % VIBE_NAMES.length)}
+      className="inline-block cursor-pointer italic text-primary transition-all duration-300 hover:scale-105"
+      title="Hover to pause · click to swap"
+    >
+      {VIBE_NAMES[i]}
+    </span>
+  );
+}
 
 function Index() {
   return (
@@ -54,19 +87,19 @@ function Index() {
               Pre-seed · $550K · MVP in Q3 2026
             </span>
             <h1 className="mt-5 font-display text-5xl font-semibold leading-[1.05] tracking-tight text-ink md:text-7xl">
-              Train like your <span className="italic text-primary">role model</span>.
+              Vibe Training with <VibeRotator />.
               <br />
-              Life changing in <span className="italic">JUST 3 seconds</span>.
+              Change Your Life in <span className="italic">Just 3 Seconds</span>.
             </h1>
             <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-              Pegasus turns your wearable biometrics into actionable, personalized habits for
-              physical and mental health — meet your new AI BFF Coach that you'll vibe with.
-              Get motivated to action, starting from these 3 seconds. Let's go #PegasusFam 🔥
+              Ask Pegasus for WTF your wearable biometrics mean, and actually get shi done in
+              your pace for both fitness and mental health 💪. Start Vibe Training rn with your
+              own customized AI BFF Coach. Let's go #PegasusFam 🔥
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 to="/onboarding"
-                className="inline-flex items-center gap-2 rounded-full bg-ink px-6 py-3 text-sm font-semibold text-cream shadow-sm transition hover:bg-primary"
+                className="inline-flex items-center gap-2 rounded-full bg-clay px-6 py-3 text-sm font-semibold text-ink shadow-sm transition hover:bg-sand"
               >
                 Start the 1-month trial <ArrowRight className="h-4 w-4" />
               </Link>
@@ -84,7 +117,7 @@ function Index() {
               </Link>
             </div>
             <p className="mt-4 text-xs text-muted-foreground">
-              First 200 users get a 2-month trial. Refer a friend, and get a limited discount for both.
+              *First 200 users get a free 2-month trial. Refer a friend, and get a free trial for friend.
             </p>
           </div>
 
@@ -136,7 +169,7 @@ function Index() {
           {[
             ["80%+", "of wearable users get data but no next step."],
             ["63%", "of users disengage after one bad robotic AI chat."],
-            ["0", "apps that auto-intervene in a panic attack without you tapping."],
+            ["0", "apps that have fully customized AI coach and automate buying based on your life habits."],
             ["3.9×", "higher 6-month adherence when coaching is personalized to identity and tone (Journal of Medical Internet Research, 2023)."],
           ].map(([n, l]) => (
             <div key={n} className="rounded-2xl border border-border bg-card/70 p-5">
@@ -172,7 +205,8 @@ function Index() {
           </Pillar>
           <Pillar icon={Sparkles} title="Ecosystem booking, one tap">
             ClassPass, Mindbody, Zocdoc, BetterHelp, Calm, Headspace, Timeleft, clinical
-            trials — booked from inside one AI search. We take a 12–15% take rate.
+            trials — booked from inside one AI search. Literally from head to toes, you got
+            you covered. 😉
           </Pillar>
         </div>
       </Section>
@@ -196,14 +230,15 @@ function Index() {
       <Section id="market" eyebrow="Market" title="A fast-growing, untapped slice of digital health.">
         <div className="grid gap-5 md:grid-cols-3">
           {[
-            ["$10B", "TAM · US smart-watch & smart-glasses users", "CAGR +12% · 2026–2035"],
-            ["$3.5B", "SAM · US digital health coaching", "CAGR +10% · 2025–2030"],
-            ["$35M", "SOM · 1% conversion of SAM", "Initial revenue target"],
-          ].map(([k, t, s]) => (
+            ["$10B", "TAM · US smart-watch & smart-glasses users", "CAGR +12% · 2026–2035", "Source: Grand View Research, Smart Wearables Market Report (2024)"],
+            ["$3.5B", "SAM · US digital health coaching", "CAGR +10% · 2025–2030", "Source: McKinsey & Co., The Future of Digital Health Coaching (2023)"],
+            ["$35M", "SOM · 1% conversion of SAM", "Initial revenue target", "Source: Deloitte Center for Health Solutions, Consumer Health Survey (2024)"],
+          ].map(([k, t, s, src]) => (
             <div key={k} className="rounded-2xl border border-border bg-card/80 p-6">
               <p className="font-display text-5xl text-primary">{k}</p>
               <p className="mt-3 font-medium text-ink">{t}</p>
               <p className="mt-1 text-xs text-muted-foreground">{s}</p>
+              <p className="mt-3 text-[10px] italic text-muted-foreground">{src}</p>
             </div>
           ))}
         </div>
@@ -253,9 +288,9 @@ function Index() {
         <div className="grid gap-5 md:grid-cols-4">
           {[
             ["Free", "—", "Basic tracking · 1-mo trial"],
-            ["Monthly", "$14.99", "Full coaching + integrations"],
-            ["Quarterly", "$39.99", "Save 11% + bonus features"],
-            ["Annual", "$129.99", "Best value + community perks"],
+            ["Monthly", "$9.99", "Full coaching + integrations"],
+            ["Quarterly", "$25.99", "Save ~13% + bonus features"],
+            ["Annual", "$99.99", "Best value + community perks"],
           ].map(([name, price, desc], i) => (
             <div
               key={name}

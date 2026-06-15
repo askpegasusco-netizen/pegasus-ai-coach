@@ -38,8 +38,7 @@ const MALE_COACHES = [
   { id: "ronaldo", name: "CR7", tag: "Siuuu Mode", sample: "Talent without working hard is nothing. Andiamo. ⚽", accent: "from-emerald-200 to-amber-200" },
   { id: "kendall", name: "Kendall Roy", tag: "L to the OG", sample: "We are going to absolutely *cook* today, fam.", accent: "from-stone-200 to-amber-100" },
   { id: "ali", name: "Muhammad Ali", tag: "Float Like a Butterfly", sample: "I am the greatest. I said that even before I knew I was.", accent: "from-amber-100 to-yellow-200" },
-  { id: "jordan", name: "MJ", tag: "Air Mentality", sample: "I've failed over and over. That is why I succeed.", accent: "from-red-200 to-stone-200" },
-  { id: "goggins", name: "Goggins", tag: "Stay Hard", sample: "You're not done. You're just getting warm. Stay hard.", accent: "from-zinc-200 to-stone-300" },
+  { id: "batman", name: "Batman", tag: "Dark Knight Discipline", sample: "It's not who I am underneath — it's what I do. 300 reps. Now.", accent: "from-zinc-300 to-stone-400" },
 ];
 
 const FEMALE_COACHES = [
@@ -48,8 +47,7 @@ const FEMALE_COACHES = [
   { id: "simone", name: "Simone Biles", tag: "GOAT Energy", sample: "Mental health first. Then we flip.", accent: "from-pink-200 to-amber-200" },
   { id: "taylor", name: "Tay", tag: "Era Mode", sample: "It's a new era — we're tracking sleep AND songwriting today.", accent: "from-stone-200 to-rose-200" },
   { id: "bey", name: "Beyoncé", tag: "Run the World", sample: "If we gonna do this, we gonna do it flawless.", accent: "from-amber-200 to-rose-300" },
-  { id: "megan", name: "Megan Rapinoe", tag: "Captain Mode", sample: "Be more, be better, be bigger than you've ever been before.", accent: "from-fuchsia-200 to-amber-200" },
-  { id: "michelle", name: "Michelle Obama", tag: "When They Go Low", sample: "Success isn't how much money you make — it's the difference you make.", accent: "from-amber-100 to-stone-200" },
+  { id: "gg", name: "Girls' Generation", tag: "K-pop Power", sample: "Gee gee gee — one more set, baby baby baby.", accent: "from-rose-200 to-fuchsia-200" },
 ];
 
 const GOALS = [
@@ -86,35 +84,54 @@ const HEAD_OPTIONS = [
 ];
 
 const HEALTH_COMMON = [
-  "Low back pain",
-  "Runner's knee",
-  "Shoulder impingement",
-  "Plantar fasciitis",
+  "Sore back",
+  "Bad knees",
+  "Tight shoulders",
+  "Foot pain",
   "Migraines",
-  "Hypertension",
-  "Pre-diabetes signs",
-  "Sleep apnea",
+  "Trouble sleeping",
+  "Low energy",
+  "Tummy issues",
 ];
 const HEALTH_FEMALE = [
-  "Low back pain",
-  "Runner's knee",
-  "Irregular period cycle",
-  "PCOS",
-  "Thyroid issues",
+  "Sore back",
+  "Bad knees",
+  "Period stuff is wack",
+  "PCOS vibes",
+  "Thyroid acting up",
   "Migraines",
-  "Plantar fasciitis",
-  "Iron / anemia",
+  "Foot pain",
+  "Low iron / always tired",
 ];
 const HEALTH_MALE = [
+  "Sore back",
+  "Bad knees",
+  "Tight shoulders",
+  "Elbow pain",
+  "Hip / leg nerve pain",
+  "High blood pressure",
+  "Low energy",
+  "Trouble sleeping",
+];
+
+const HEALTH_GENX = [
   "Low back pain",
-  "Runner's knee",
   "Shoulder impingement",
-  "Tennis elbow",
   "Sciatica",
   "Hypertension",
   "High cholesterol",
   "Pre-diabetes signs",
+  "Plantar fasciitis",
+  "Sleep apnea",
 ];
+
+function ageGroup(birthYear: number): "GenZ" | "Millennial" | "GenX" | "Older" {
+  const age = new Date().getFullYear() - birthYear;
+  if (age <= 28) return "GenZ";
+  if (age <= 44) return "Millennial";
+  if (age <= 60) return "GenX";
+  return "Older";
+}
 
 function Onboarding() {
   const [step, setStep] = useState(0);
@@ -132,6 +149,7 @@ function Onboarding() {
   const [labPhotos, setLabPhotos] = useState<string[]>([]);
   const [diet, setDiet] = useState("Omnivore");
   const [headState, setHeadState] = useState<string | null>(null);
+  const [workoutStyle, setWorkoutStyle] = useState<string>("let try it first");
   // account sub-flow
   const [accountSub, setAccountSub] = useState<AccountSub>("choose");
   const [provider, setProvider] = useState<Provider | null>(null);
@@ -179,8 +197,11 @@ function Onboarding() {
   };
 
   const coaches = coachGender === "male" ? MALE_COACHES : FEMALE_COACHES;
-  const healthList =
+  const ageSeg = ageGroup(birthYear);
+  const baseList =
     gender === "Woman" ? HEALTH_FEMALE : gender === "Man" ? HEALTH_MALE : HEALTH_COMMON;
+  // Gen X gets clinical terms; Gen Z / Millennials get human terms
+  const healthList = ageSeg === "GenX" || ageSeg === "Older" ? HEALTH_GENX : baseList;
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 90 }, (_, i) => currentYear - 13 - i);
   const months = [
@@ -294,9 +315,10 @@ function Onboarding() {
           )}
           {step === 2 && (
             <div>
-              <H>All About You</H>
+              <H>My OG Profile 🎤</H>
+              <P>add your info so your homie makes no-sus plan for ya</P>
               <div className="mt-6 grid gap-4 md:grid-cols-2">
-                <Field label="Birth month & year">
+                <Field label="My birth month & year">
                   <div className="flex gap-2">
                     <select
                       value={birthMonth}
@@ -318,7 +340,7 @@ function Onboarding() {
                     </select>
                   </div>
                 </Field>
-                <Field label="Gender">
+                <Field label="My gender">
                   <select
                     value={gender}
                     onChange={(e) => setGender(e.target.value as typeof gender)}
@@ -329,7 +351,7 @@ function Onboarding() {
                     ))}
                   </select>
                 </Field>
-                <Field label="Weight">
+                <Field label="My weight">
                   <div className="flex gap-2">
                     <Input placeholder={weightUnit === "lb" ? "160" : "73"} />
                     <UnitToggle
@@ -339,7 +361,7 @@ function Onboarding() {
                     />
                   </div>
                 </Field>
-                <Field label="Height">
+                <Field label="My height">
                   <div className="flex gap-2">
                     <Input placeholder={heightUnit === "in" ? `5'10"` : "178"} />
                     <UnitToggle
@@ -461,17 +483,6 @@ function Onboarding() {
                     ))}
                   </div>
                 </Field>
-                <Field label="Dietary preference">
-                  <select
-                    value={diet}
-                    onChange={(e) => setDiet(e.target.value)}
-                    className="w-full rounded-xl border border-input bg-card px-3 py-2 text-sm outline-none focus:border-primary"
-                  >
-                    {["Omnivore", "Vegan", "Vegetarian", "Keto", "Mediterranean", "Pescatarian", "Gluten-free", "Dairy-free", "Halal", "Kosher"].map((o) => (
-                      <option key={o}>{o}</option>
-                    ))}
-                  </select>
-                </Field>
                 <Field label={`Stress level: ${stress}/10 · ${STRESS_LABEL(stress)}`}>
                   <input
                     type="range"
@@ -485,6 +496,26 @@ function Onboarding() {
                     <span>1 · Least</span>
                     <span>5 · Moderate</span>
                     <span>10 · Very stressed</span>
+                  </div>
+                </Field>
+                <Field label="Dietary preference">
+                  <select
+                    value={diet}
+                    onChange={(e) => setDiet(e.target.value)}
+                    className="w-full rounded-xl border border-input bg-card px-3 py-2 text-sm outline-none focus:border-primary"
+                  >
+                    {["Omnivore", "Vegan", "Vegetarian", "Keto", "Mediterranean", "Pescatarian", "Gluten-free", "Dairy-free", "Halal", "Kosher"].map((o) => (
+                      <option key={o}>{o}</option>
+                    ))}
+                  </select>
+                </Field>
+                <Field label="My workout style">
+                  <div className="flex flex-wrap gap-2">
+                    {["starting from small", "gimme everything", "let try it first", "surprise me"].map((o) => (
+                      <Chip key={o} active={workoutStyle === o} onClick={() => setWorkoutStyle(o)}>
+                        {o}
+                      </Chip>
+                    ))}
                   </div>
                 </Field>
                 <Field label="How's your head right now? (pick one)">
@@ -595,7 +626,7 @@ function Onboarding() {
               </div>
               )}
               <p className="mt-3 text-[11px] text-muted-foreground">
-                Tip: more personas (Patrick Bateman, Hailey Bieber, custom) unlock in Coach.
+                Tip: more personas (Batman, Girls' Generation, custom) unlock in Coach.
               </p>
             </div>
           )}
@@ -613,13 +644,13 @@ function Onboarding() {
                   "RingConn Smart Ring",
                   "WHOOP 5.0",
                   "Meta Ray-Ban Glasses",
+                  "Fitbit",
                   "Muse Headband",
                   "Eight Sleep",
                   "Garmin",
                   "Polar Vantage",
                   "Coros Pace",
                   "Suunto Race",
-                  "Fitbit",
                   "Amazfit",
                   "Withings ScanWatch",
                   "Levels CGM",
@@ -682,9 +713,9 @@ function Onboarding() {
 
 function Welcome({ onNext }: { onNext: () => void }) {
   const bullets = [
-    { icon: Watch, text: "Connect Apple Watch, Oura, Garmin & more." },
-    { icon: ShieldAlert, text: "Stop the Panic Attack Storm in 3 secs." },
-    { icon: Sparkles, text: "Talk to your favourite mentor with health plan." },
+    { icon: Watch, text: "Connect Apple Watch, Samsung Galaxy Watch, Oura, Garmin & more." },
+    { icon: ShieldAlert, text: "Auto stop the Panic Attack storm in 3 secs." },
+    { icon: Sparkles, text: "Vibe Training with your favourite mentor with health plan ⛑️🧢" },
   ];
   return (
     <div className="text-center">
@@ -749,40 +780,102 @@ function PlanReveal({
   openDay: string | null;
   setOpenDay: (d: string | null) => void;
 }) {
-  // Per-day AI diet tuned to dietary preference + restrictions
-  const dietBank: Record<string, { meal: string; healthy: string; treat: string }[]> = {
+  // Per-day diverse diet rotation tuned to dietary preference
+  const weeklyDietBank: Record<string, { meal: string; healthy: string; treat: string }[][]> = {
     base: [
-      { meal: "Breakfast", healthy: "3-egg omelet + oats + berries", treat: "Iced oat-milk latte" },
-      { meal: "Lunch", healthy: "Chicken + rice + broccoli", treat: "Square of dark chocolate" },
-      { meal: "Dinner", healthy: "Grilled salmon + quinoa + greens", treat: "Glass of wine" },
+      [ { meal: "Breakfast", healthy: "3-egg omelet + oats + berries", treat: "Iced oat-milk latte" },
+        { meal: "Lunch", healthy: "Chicken + rice + broccoli", treat: "Dark chocolate square" },
+        { meal: "Dinner", healthy: "Grilled salmon + quinoa + greens", treat: "Glass of wine" } ],
+      [ { meal: "Breakfast", healthy: "Greek yogurt + granola + banana", treat: "Mini croissant" },
+        { meal: "Lunch", healthy: "Turkey wrap + side salad", treat: "Boba (half-sugar)" },
+        { meal: "Dinner", healthy: "Steak + sweet potato + asparagus", treat: "2 squares dark choc" } ],
+      [ { meal: "Breakfast", healthy: "Protein smoothie + peanut butter toast", treat: "Iced matcha" },
+        { meal: "Lunch", healthy: "Poke bowl (salmon, edamame, rice)", treat: "Spicy mayo drizzle" },
+        { meal: "Dinner", healthy: "Chicken stir-fry + brown rice", treat: "Mochi ice cream" } ],
+      [ { meal: "Breakfast", healthy: "Avocado toast + 2 eggs", treat: "Oat-milk cappuccino" },
+        { meal: "Lunch", healthy: "Cobb salad (chicken, egg, bacon bits)", treat: "Sourdough roll" },
+        { meal: "Dinner", healthy: "Shrimp tacos + slaw", treat: "1 margarita" } ],
+      [ { meal: "Breakfast", healthy: "Overnight oats + chia + berries", treat: "Honey drizzle" },
+        { meal: "Lunch", healthy: "Quinoa power bowl + chickpeas", treat: "Hummus + pita chips" },
+        { meal: "Dinner", healthy: "Baked cod + lemon rice + greens", treat: "Tiramisu bite" } ],
+      [ { meal: "Breakfast", healthy: "Cottage cheese + pineapple + flax", treat: "Iced coffee" },
+        { meal: "Lunch", healthy: "Beef bibimbap + kimchi", treat: "Korean fried chicken wing" },
+        { meal: "Dinner", healthy: "Margherita pizza (thin) + arugula", treat: "Gelato scoop" } ],
+      [ { meal: "Breakfast", healthy: "Banana protein pancakes", treat: "Maple syrup splash" },
+        { meal: "Lunch", healthy: "Sushi handroll set + miso", treat: "Edamame + sake (1)" },
+        { meal: "Dinner", healthy: "Roast chicken + veg tray bake", treat: "Apple crumble" } ],
     ],
     Vegan: [
-      { meal: "Breakfast", healthy: "Tofu scramble + sourdough + spinach", treat: "Almond-milk mocha" },
-      { meal: "Lunch", healthy: "Tempeh grain bowl + tahini", treat: "Dark chocolate square" },
-      { meal: "Dinner", healthy: "Lentil curry + brown rice", treat: "Vegan ice cream scoop" },
-    ],
-    Vegetarian: [
-      { meal: "Breakfast", healthy: "Greek yogurt + granola + berries", treat: "Latte" },
-      { meal: "Lunch", healthy: "Halloumi grain bowl + veg", treat: "Dark chocolate" },
-      { meal: "Dinner", healthy: "Paneer stir-fry + brown rice", treat: "Glass of wine" },
+      [ { meal: "Breakfast", healthy: "Tofu scramble + sourdough + spinach", treat: "Almond mocha" },
+        { meal: "Lunch", healthy: "Tempeh grain bowl + tahini", treat: "Dark chocolate" },
+        { meal: "Dinner", healthy: "Lentil curry + brown rice", treat: "Vegan ice cream" } ],
+      [ { meal: "Breakfast", healthy: "Chia pudding + berries + granola", treat: "Oat-milk latte" },
+        { meal: "Lunch", healthy: "Falafel + hummus + pita", treat: "Stuffed grape leaves" },
+        { meal: "Dinner", healthy: "Tofu pad thai + peanuts", treat: "Coconut sticky rice" } ],
+      [ { meal: "Breakfast", healthy: "Avocado toast + tomato + hemp", treat: "Maple oat cookie" },
+        { meal: "Lunch", healthy: "Buddha bowl (quinoa, sweet potato, kale)", treat: "Tahini drizzle" },
+        { meal: "Dinner", healthy: "Mushroom stroganoff + farro", treat: "Dark chocolate truffle" } ],
+      [ { meal: "Breakfast", healthy: "Banana-oat smoothie + pb", treat: "Date energy ball" },
+        { meal: "Lunch", healthy: "Veggie sushi + edamame", treat: "Vegan mochi" },
+        { meal: "Dinner", healthy: "Black bean tacos + avocado", treat: "Vegan margarita" } ],
+      [ { meal: "Breakfast", healthy: "Vegan protein pancakes", treat: "Maple syrup" },
+        { meal: "Lunch", healthy: "Chickpea 'tuna' wrap", treat: "Veggie chips" },
+        { meal: "Dinner", healthy: "Coconut chickpea curry + rice", treat: "Vegan brownie" } ],
+      [ { meal: "Breakfast", healthy: "Granola + soy yogurt + berries", treat: "Cold brew" },
+        { meal: "Lunch", healthy: "Lentil soup + sourdough", treat: "Olive oil + bread dip" },
+        { meal: "Dinner", healthy: "Stuffed peppers (quinoa + bean)", treat: "Vegan cheesecake bite" } ],
+      [ { meal: "Breakfast", healthy: "Acai bowl + granola + nuts", treat: "Coconut whip" },
+        { meal: "Lunch", healthy: "Soba noodles + edamame + sesame", treat: "Bubble tea (half-sugar)" },
+        { meal: "Dinner", healthy: "Cauliflower steak + lentils", treat: "Vegan tiramisu" } ],
     ],
     Keto: [
-      { meal: "Breakfast", healthy: "Avocado + 3 eggs + bacon", treat: "Bulletproof coffee" },
-      { meal: "Lunch", healthy: "Steak salad + olive oil", treat: "Keto fat-bomb" },
-      { meal: "Dinner", healthy: "Salmon + asparagus + butter", treat: "Berries + cream" },
+      [ { meal: "Breakfast", healthy: "Avocado + 3 eggs + bacon", treat: "Bulletproof coffee" },
+        { meal: "Lunch", healthy: "Steak salad + olive oil", treat: "Keto fat-bomb" },
+        { meal: "Dinner", healthy: "Salmon + asparagus + butter", treat: "Berries + cream" } ],
+      [ { meal: "Breakfast", healthy: "Cheese omelet + spinach", treat: "MCT-oil coffee" },
+        { meal: "Lunch", healthy: "Cobb salad + ranch", treat: "Pork rinds" },
+        { meal: "Dinner", healthy: "Ribeye + broccoli + butter", treat: "Keto cheesecake bite" } ],
+      [ { meal: "Breakfast", healthy: "Chia pudding + almond milk + flax", treat: "Almond-flour muffin" },
+        { meal: "Lunch", healthy: "Tuna lettuce wraps + avo", treat: "Olives" },
+        { meal: "Dinner", healthy: "Pork chop + cauliflower mash", treat: "Sugar-free dark choc" } ],
+      [ { meal: "Breakfast", healthy: "Greek yogurt (full-fat) + walnuts", treat: "Coconut chips" },
+        { meal: "Lunch", healthy: "Chicken Caesar (no croutons)", treat: "Parmesan crisps" },
+        { meal: "Dinner", healthy: "Lamb chops + zucchini noodles", treat: "Whipped cream + berries" } ],
+      [ { meal: "Breakfast", healthy: "Bacon + 3 eggs + avocado", treat: "Bulletproof cocoa" },
+        { meal: "Lunch", healthy: "Bunless burger + side salad", treat: "Cheese crisps" },
+        { meal: "Dinner", healthy: "Shrimp scampi (zoodles)", treat: "Keto brownie bite" } ],
+      [ { meal: "Breakfast", healthy: "Smoked salmon + cream cheese roll", treat: "Espresso" },
+        { meal: "Lunch", healthy: "Egg salad + arugula", treat: "Macadamias" },
+        { meal: "Dinner", healthy: "Steak fajita bowl (no rice)", treat: "Sugar-free flan" } ],
+      [ { meal: "Breakfast", healthy: "Sausage + eggs + sautéed greens", treat: "Heavy-cream coffee" },
+        { meal: "Lunch", healthy: "Chicken thighs + cauliflower rice", treat: "Pesto drizzle" },
+        { meal: "Dinner", healthy: "Slow-roast pork + brussels sprouts", treat: "Keto pecan pie bite" } ],
     ],
     Mediterranean: [
-      { meal: "Breakfast", healthy: "Greek yogurt + honey + walnuts", treat: "Espresso" },
-      { meal: "Lunch", healthy: "Chickpea + tuna salad", treat: "Olive bread" },
-      { meal: "Dinner", healthy: "Grilled fish + veg + olive oil", treat: "Glass of red wine" },
-    ],
-    Pescatarian: [
-      { meal: "Breakfast", healthy: "Smoked salmon + avocado toast", treat: "Latte" },
-      { meal: "Lunch", healthy: "Tuna poke bowl", treat: "Dark chocolate" },
-      { meal: "Dinner", healthy: "Cod + sweet potato + greens", treat: "Boba" },
+      [ { meal: "Breakfast", healthy: "Greek yogurt + honey + walnuts", treat: "Espresso" },
+        { meal: "Lunch", healthy: "Chickpea + tuna salad", treat: "Olive bread" },
+        { meal: "Dinner", healthy: "Grilled fish + veg + olive oil", treat: "Glass of red wine" } ],
+      [ { meal: "Breakfast", healthy: "Shakshuka + sourdough", treat: "Mint tea + halva" },
+        { meal: "Lunch", healthy: "Greek salad + grilled chicken", treat: "Feta drizzle" },
+        { meal: "Dinner", healthy: "Seafood paella (small)", treat: "Sangria (1)" } ],
+      [ { meal: "Breakfast", healthy: "Whole-grain toast + tomato + olive oil", treat: "Espresso + biscotti" },
+        { meal: "Lunch", healthy: "Lentil + farro salad", treat: "Olives + almonds" },
+        { meal: "Dinner", healthy: "Grilled lamb skewers + tzatziki", treat: "Baklava bite" } ],
+      [ { meal: "Breakfast", healthy: "Yogurt + pomegranate + pistachio", treat: "Honey drizzle" },
+        { meal: "Lunch", healthy: "Tabbouleh + grilled halloumi", treat: "Pita + hummus" },
+        { meal: "Dinner", healthy: "Branzino + roasted veg", treat: "Limoncello (sip)" } ],
+      [ { meal: "Breakfast", healthy: "Frittata + tomato + basil", treat: "Cappuccino" },
+        { meal: "Lunch", healthy: "Niçoise salad", treat: "Crusty bread + olive oil" },
+        { meal: "Dinner", healthy: "Whole-wheat pasta + clams", treat: "Tiramisu bite" } ],
+      [ { meal: "Breakfast", healthy: "Muesli + warm milk + figs", treat: "Espresso" },
+        { meal: "Lunch", healthy: "Stuffed peppers + bulgur", treat: "Stuffed dates" },
+        { meal: "Dinner", healthy: "Grilled octopus + lemon potatoes", treat: "Glass of rosé" } ],
+      [ { meal: "Breakfast", healthy: "Cottage cheese + cucumber + olives", treat: "Date + walnut" },
+        { meal: "Lunch", healthy: "Salmon + farro + arugula", treat: "Lemon olive cake bite" },
+        { meal: "Dinner", healthy: "Slow-roast lamb + couscous", treat: "Gelato scoop" } ],
     ],
   };
-  const meals = dietBank[diet] ?? dietBank.base;
+  const week = weeklyDietBank[diet] ?? weeklyDietBank.base;
   const restrictionNote =
     restrictions.length && !restrictions.includes("None")
       ? `Adjusted for: ${restrictions.filter((r) => r !== "None").slice(0, 3).join(", ")}`
@@ -796,8 +889,9 @@ function PlanReveal({
         {restrictionNote ? ` — ${restrictionNote.toLowerCase()}` : ""}. Swap any day before we start.
       </P>
       <div className="mt-6 space-y-2">
-        {DAY_PLAN.map((d) => {
+        {DAY_PLAN.map((d, dayIdx) => {
           const open = openDay === d.day;
+          const meals = week[dayIdx % week.length];
           return (
             <div key={d.day} className="overflow-hidden rounded-xl border border-border bg-card">
               <button
@@ -825,12 +919,12 @@ function PlanReveal({
                   <div className="rounded-lg bg-card p-3">
                     <div className="flex items-center justify-between">
                       <p className="text-[10px] font-semibold uppercase tracking-wider text-primary">
-                        AI diet · {diet} · 80 / 20
+                        My diet · {diet} · 80 / 20
                       </p>
                       <span className="text-[10px] text-muted-foreground">Tuned to {d.intensity.toLowerCase()} intensity</span>
                     </div>
                     <ul className="mt-2 space-y-1.5 text-sm text-ink">
-                      {meals.map((m) => (
+                      {meals.map((m: { meal: string; healthy: string; treat: string }) => (
                         <li key={m.meal} className="flex flex-wrap gap-x-2">
                           <span className="w-20 text-xs font-semibold text-muted-foreground">{m.meal}</span>
                           <span className="flex-1">{m.healthy}</span>
@@ -849,15 +943,40 @@ function PlanReveal({
         })}
       </div>
 
-      <div className="mt-6 rounded-2xl bg-ink p-4 text-cream">
-        <p className="text-xs uppercase tracking-wider text-clay">Predicted outcome · 4 weeks</p>
-        <p className="mt-1 font-display text-xl">
-          -2.1% body fat · +14% HRV · stress drops from {stress}/10 → ~{Math.max(1, stress - 2)}/10
-        </p>
-        <p className="mt-2 text-xs text-cream/70">
-          Plus Pega-only metrics you can't get from your watch: Peace Score, Metabolic Flex, Cardio Reserve.
-        </p>
-      </div>
+      {(() => {
+        const mentalGoals = ["Stress reduction", "Mind resilience", "Beat anxiety", "Better sleep"];
+        const isMentalFirst =
+          focus.length > 0 &&
+          focus.some((g) => mentalGoals.includes(g)) &&
+          !focus.some((g) => ["Weight control", "Fitness shape", "Muscle building"].includes(g));
+        return (
+          <div className="mt-6 rounded-2xl bg-ink p-4 text-cream">
+            <p className="text-xs uppercase tracking-wider text-clay">Predicted outcome · 4 weeks</p>
+            {isMentalFirst ? (
+              <>
+                <p className="mt-1 font-display text-xl">
+                  Stress {stress}/10 → ~{Math.max(1, stress - 3)}/10 · +18% HRV · resting HR
+                  −6 bpm · sleep latency −12 min
+                </p>
+                <p className="mt-2 text-xs text-cream/70">
+                  We're skipping body-fat noise — your plan focuses on Peace Score™,
+                  Cardio Reserve™ & Inflammation Idx™. We'll revisit body comp only if you ask.
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="mt-1 font-display text-xl">
+                  -2.1% body fat · +14% HRV · stress drops from {stress}/10 → ~{Math.max(1, stress - 2)}/10
+                </p>
+                <p className="mt-2 text-xs text-cream/70">
+                  Plus Pega-only metrics you can't get from your watch: Peace Score, Metabolic
+                  Flex, Cardio Reserve.
+                </p>
+              </>
+            )}
+          </div>
+        );
+      })()}
       {focus.length > 0 && (
         <p className="mt-3 text-xs text-muted-foreground">
           Goals weighted in this plan: {focus.slice(0, 4).join(" · ")}
