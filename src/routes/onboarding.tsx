@@ -889,8 +889,9 @@ function PlanReveal({
         {restrictionNote ? ` — ${restrictionNote.toLowerCase()}` : ""}. Swap any day before we start.
       </P>
       <div className="mt-6 space-y-2">
-        {DAY_PLAN.map((d) => {
+        {DAY_PLAN.map((d, dayIdx) => {
           const open = openDay === d.day;
+          const meals = week[dayIdx % week.length];
           return (
             <div key={d.day} className="overflow-hidden rounded-xl border border-border bg-card">
               <button
@@ -918,12 +919,12 @@ function PlanReveal({
                   <div className="rounded-lg bg-card p-3">
                     <div className="flex items-center justify-between">
                       <p className="text-[10px] font-semibold uppercase tracking-wider text-primary">
-                        AI diet · {diet} · 80 / 20
+                        My diet · {diet} · 80 / 20
                       </p>
                       <span className="text-[10px] text-muted-foreground">Tuned to {d.intensity.toLowerCase()} intensity</span>
                     </div>
                     <ul className="mt-2 space-y-1.5 text-sm text-ink">
-                      {meals.map((m) => (
+                      {meals.map((m: { meal: string; healthy: string; treat: string }) => (
                         <li key={m.meal} className="flex flex-wrap gap-x-2">
                           <span className="w-20 text-xs font-semibold text-muted-foreground">{m.meal}</span>
                           <span className="flex-1">{m.healthy}</span>
