@@ -233,12 +233,12 @@ function Index() {
             ["$10B", "TAM · US smart-watch & smart-glasses users", "CAGR +12% · 2026–2035", "Source: Grand View Research, Smart Wearables Market Report (2024)"],
             ["$3.5B", "SAM · US digital health coaching", "CAGR +10% · 2025–2030", "Source: McKinsey & Co., The Future of Digital Health Coaching (2023)"],
             ["$35M", "SOM · 1% conversion of SAM", "Initial revenue target", "Source: Deloitte Center for Health Solutions, Consumer Health Survey (2024)"],
-          ].map(([k, t, s]) => (
+          ].map(([k, t, s, src]) => (
             <div key={k} className="rounded-2xl border border-border bg-card/80 p-6">
               <p className="font-display text-5xl text-primary">{k}</p>
               <p className="mt-3 font-medium text-ink">{t}</p>
               <p className="mt-1 text-xs text-muted-foreground">{s}</p>
-              <p className="mt-2 text-[10px] italic text-muted-foreground">{(arguments as never) && (s as string).length ? "" : ""}</p>
+              <p className="mt-3 text-[10px] italic text-muted-foreground">{src}</p>
             </div>
           ))}
         </div>
