@@ -38,8 +38,7 @@ const MALE_COACHES = [
   { id: "ronaldo", name: "CR7", tag: "Siuuu Mode", sample: "Talent without working hard is nothing. Andiamo. ⚽", accent: "from-emerald-200 to-amber-200" },
   { id: "kendall", name: "Kendall Roy", tag: "L to the OG", sample: "We are going to absolutely *cook* today, fam.", accent: "from-stone-200 to-amber-100" },
   { id: "ali", name: "Muhammad Ali", tag: "Float Like a Butterfly", sample: "I am the greatest. I said that even before I knew I was.", accent: "from-amber-100 to-yellow-200" },
-  { id: "jordan", name: "MJ", tag: "Air Mentality", sample: "I've failed over and over. That is why I succeed.", accent: "from-red-200 to-stone-200" },
-  { id: "goggins", name: "Goggins", tag: "Stay Hard", sample: "You're not done. You're just getting warm. Stay hard.", accent: "from-zinc-200 to-stone-300" },
+  { id: "batman", name: "Batman", tag: "Dark Knight Discipline", sample: "It's not who I am underneath — it's what I do. 300 reps. Now.", accent: "from-zinc-300 to-stone-400" },
 ];
 
 const FEMALE_COACHES = [
@@ -48,8 +47,7 @@ const FEMALE_COACHES = [
   { id: "simone", name: "Simone Biles", tag: "GOAT Energy", sample: "Mental health first. Then we flip.", accent: "from-pink-200 to-amber-200" },
   { id: "taylor", name: "Tay", tag: "Era Mode", sample: "It's a new era — we're tracking sleep AND songwriting today.", accent: "from-stone-200 to-rose-200" },
   { id: "bey", name: "Beyoncé", tag: "Run the World", sample: "If we gonna do this, we gonna do it flawless.", accent: "from-amber-200 to-rose-300" },
-  { id: "megan", name: "Megan Rapinoe", tag: "Captain Mode", sample: "Be more, be better, be bigger than you've ever been before.", accent: "from-fuchsia-200 to-amber-200" },
-  { id: "michelle", name: "Michelle Obama", tag: "When They Go Low", sample: "Success isn't how much money you make — it's the difference you make.", accent: "from-amber-100 to-stone-200" },
+  { id: "gg", name: "Girls' Generation", tag: "K-pop Power", sample: "Gee gee gee — one more set, baby baby baby.", accent: "from-rose-200 to-fuchsia-200" },
 ];
 
 const GOALS = [
@@ -86,35 +84,54 @@ const HEAD_OPTIONS = [
 ];
 
 const HEALTH_COMMON = [
-  "Low back pain",
-  "Runner's knee",
-  "Shoulder impingement",
-  "Plantar fasciitis",
+  "Sore back",
+  "Bad knees",
+  "Tight shoulders",
+  "Foot pain",
   "Migraines",
-  "Hypertension",
-  "Pre-diabetes signs",
-  "Sleep apnea",
+  "Trouble sleeping",
+  "Low energy",
+  "Tummy issues",
 ];
 const HEALTH_FEMALE = [
-  "Low back pain",
-  "Runner's knee",
-  "Irregular period cycle",
-  "PCOS",
-  "Thyroid issues",
+  "Sore back",
+  "Bad knees",
+  "Period stuff is wack",
+  "PCOS vibes",
+  "Thyroid acting up",
   "Migraines",
-  "Plantar fasciitis",
-  "Iron / anemia",
+  "Foot pain",
+  "Low iron / always tired",
 ];
 const HEALTH_MALE = [
+  "Sore back",
+  "Bad knees",
+  "Tight shoulders",
+  "Elbow pain",
+  "Hip / leg nerve pain",
+  "High blood pressure",
+  "Low energy",
+  "Trouble sleeping",
+];
+
+const HEALTH_GENX = [
   "Low back pain",
-  "Runner's knee",
   "Shoulder impingement",
-  "Tennis elbow",
   "Sciatica",
   "Hypertension",
   "High cholesterol",
   "Pre-diabetes signs",
+  "Plantar fasciitis",
+  "Sleep apnea",
 ];
+
+function ageGroup(birthYear: number): "GenZ" | "Millennial" | "GenX" | "Older" {
+  const age = new Date().getFullYear() - birthYear;
+  if (age <= 28) return "GenZ";
+  if (age <= 44) return "Millennial";
+  if (age <= 60) return "GenX";
+  return "Older";
+}
 
 function Onboarding() {
   const [step, setStep] = useState(0);
