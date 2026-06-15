@@ -149,6 +149,7 @@ function Onboarding() {
   const [labPhotos, setLabPhotos] = useState<string[]>([]);
   const [diet, setDiet] = useState("Omnivore");
   const [headState, setHeadState] = useState<string | null>(null);
+  const [workoutStyle, setWorkoutStyle] = useState<string>("let try it first");
   // account sub-flow
   const [accountSub, setAccountSub] = useState<AccountSub>("choose");
   const [provider, setProvider] = useState<Provider | null>(null);
@@ -196,8 +197,11 @@ function Onboarding() {
   };
 
   const coaches = coachGender === "male" ? MALE_COACHES : FEMALE_COACHES;
-  const healthList =
+  const ageSeg = ageGroup(birthYear);
+  const baseList =
     gender === "Woman" ? HEALTH_FEMALE : gender === "Man" ? HEALTH_MALE : HEALTH_COMMON;
+  // Gen X gets clinical terms; Gen Z / Millennials get human terms
+  const healthList = ageSeg === "GenX" || ageSeg === "Older" ? HEALTH_GENX : baseList;
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 90 }, (_, i) => currentYear - 13 - i);
   const months = [
