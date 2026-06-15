@@ -73,6 +73,38 @@ export const CHARACTERS = [
     sample: "We protecting our peace AND our protein today.",
     accent: "from-rose-200 to-amber-100",
   },
+  {
+    id: "goggins",
+    name: "Goggins",
+    tag: "Stay Hard",
+    vibe: "No-excuses, raw, 4am savagery.",
+    sample: "Who's gonna carry the boats?! Get up. Move.",
+    accent: "from-stone-300 to-zinc-200",
+  },
+  {
+    id: "serena",
+    name: "Serena",
+    tag: "Queen Energy",
+    vibe: "Champion grit with grace and grind.",
+    sample: "Pressure is a privilege. Show up for you today.",
+    accent: "from-fuchsia-200 to-amber-100",
+  },
+  {
+    id: "michelle",
+    name: "Michelle O.",
+    tag: "When They Go Low",
+    vibe: "Warm, wise, big-sister-with-a-plan.",
+    sample: "You are enough. Now drink water and let's walk.",
+    accent: "from-sky-200 to-cream",
+  },
+  {
+    id: "others",
+    name: "Others — Build Your BFF",
+    tag: "Custom Voice",
+    vibe: "Upload your friend, mom, mentor, or crush. Pega learns their tone.",
+    sample: "Paste a few chats — we'll make Pega sound exactly like them.",
+    accent: "from-clay/60 to-sand",
+  },
 ];
 
 export const VIBES = [
