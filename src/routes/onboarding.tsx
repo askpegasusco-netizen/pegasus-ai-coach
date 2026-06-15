@@ -483,17 +483,6 @@ function Onboarding() {
                     ))}
                   </div>
                 </Field>
-                <Field label="Dietary preference">
-                  <select
-                    value={diet}
-                    onChange={(e) => setDiet(e.target.value)}
-                    className="w-full rounded-xl border border-input bg-card px-3 py-2 text-sm outline-none focus:border-primary"
-                  >
-                    {["Omnivore", "Vegan", "Vegetarian", "Keto", "Mediterranean", "Pescatarian", "Gluten-free", "Dairy-free", "Halal", "Kosher"].map((o) => (
-                      <option key={o}>{o}</option>
-                    ))}
-                  </select>
-                </Field>
                 <Field label={`Stress level: ${stress}/10 · ${STRESS_LABEL(stress)}`}>
                   <input
                     type="range"
@@ -507,6 +496,26 @@ function Onboarding() {
                     <span>1 · Least</span>
                     <span>5 · Moderate</span>
                     <span>10 · Very stressed</span>
+                  </div>
+                </Field>
+                <Field label="Dietary preference">
+                  <select
+                    value={diet}
+                    onChange={(e) => setDiet(e.target.value)}
+                    className="w-full rounded-xl border border-input bg-card px-3 py-2 text-sm outline-none focus:border-primary"
+                  >
+                    {["Omnivore", "Vegan", "Vegetarian", "Keto", "Mediterranean", "Pescatarian", "Gluten-free", "Dairy-free", "Halal", "Kosher"].map((o) => (
+                      <option key={o}>{o}</option>
+                    ))}
+                  </select>
+                </Field>
+                <Field label="My workout style">
+                  <div className="flex flex-wrap gap-2">
+                    {["starting from small", "gimme everything", "let try it first", "surprise me"].map((o) => (
+                      <Chip key={o} active={workoutStyle === o} onClick={() => setWorkoutStyle(o)}>
+                        {o}
+                      </Chip>
+                    ))}
                   </div>
                 </Field>
                 <Field label="How's your head right now? (pick one)">
