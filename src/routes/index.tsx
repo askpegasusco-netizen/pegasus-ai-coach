@@ -16,7 +16,7 @@ import { CHARACTERS } from "@/lib/pegasus";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Pegasus — Train like your role model. Calm down in 3 seconds." },
+      { title: "Pegasus — Train like your role model. Life changing in JUST 3 seconds." },
       { name: "description", content: "Pegasus is the AI BFF coach that turns biometrics into action — character-coached fitness, automated mental-health intervention, and one-tap ecosystem booking." },
       { property: "og:title", content: "Pegasus — Your AI BFF Coach, head to toes" },
       { property: "og:description", content: "From motivation to action plan, in your role model's voice." },
@@ -56,12 +56,12 @@ function Index() {
             <h1 className="mt-5 font-display text-5xl font-semibold leading-[1.05] tracking-tight text-ink md:text-7xl">
               Train like your <span className="italic text-primary">role model</span>.
               <br />
-              Calm down in <span className="italic">3 seconds</span>.
+              Life changing in <span className="italic">JUST 3 seconds</span>.
             </h1>
             <p className="mt-6 max-w-xl text-lg text-muted-foreground">
               Pegasus turns your wearable biometrics into actionable, personalized habits for
-              physical and mental health — coached in the voice of the character you actually
-              want to be. Motivation to action, all in one beige-warm app.
+              physical and mental health — meet your new AI BFF Coach that you'll vibe with.
+              Get motivated to action, starting from these 3 seconds. Let's go #PegasusFam 🔥
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
@@ -71,6 +71,12 @@ function Index() {
                 Start the 1-month trial <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
+                to="/waitlist"
+                className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-sm transition hover:opacity-90"
+              >
+                Join Waitlist <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
                 to="/dashboard"
                 className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3 text-sm font-semibold text-foreground transition hover:bg-secondary"
               >
@@ -78,7 +84,7 @@ function Index() {
               </Link>
             </div>
             <p className="mt-4 text-xs text-muted-foreground">
-              First 100–200 users get a 2-month promo. Refer a friend → both get the same discount.
+              First 200 users get a 2-month trial. Refer a friend, and get a limited discount for both.
             </p>
           </div>
 
@@ -105,6 +111,10 @@ function Index() {
                 <p className="mt-1 text-sm font-medium text-ink">
                   35-min Mamba Push · Upper body + 4-min box breathing
                 </p>
+                <p className="mt-2 text-xs text-muted-foreground">
+                  <span className="font-semibold text-ink">Diet:</span> Greek yogurt + berries · grilled
+                  chicken bowl · 1 square dark chocolate (80/20 buffer)
+                </p>
                 <button className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground">
                   Start <ArrowRight className="h-3 w-3" />
                 </button>
@@ -127,7 +137,7 @@ function Index() {
             ["80%+", "of wearable users get data but no next step."],
             ["63%", "of users disengage after one bad robotic AI chat."],
             ["0", "apps that auto-intervene in a panic attack without you tapping."],
-            ["30 days", "average until users quit a 'rigid 3-day routine' app like Nori."],
+            ["3.9×", "higher 6-month adherence when coaching is personalized to identity and tone (Journal of Medical Internet Research, 2023)."],
           ].map(([n, l]) => (
             <div key={n} className="rounded-2xl border border-border bg-card/70 p-5">
               <p className="font-display text-3xl text-primary">{n}</p>
@@ -156,7 +166,7 @@ function Index() {
             Weekly, monthly, quarterly plans with the predicted result — no more "what
             does 6.8 HRV even mean?"
           </Pillar>
-          <Pillar icon={Trophy} title="AimiFam community + battles">
+          <Pillar icon={Trophy} title="PegaFam community + battles">
             Friendly battles, leaderboards, Spotify-Wrapped-style shareable milestones.
             Surprise boxes break the routine so you keep coming back.
           </Pillar>
