@@ -34,7 +34,12 @@ const VIBE_NAMES = [
   "Simone Biles",
   "Batman",
   "Mom",
-  "Girls' Generation",
+  "Vanessa Hudgens",
+  "Christian Bale",
+  "Jalen Brunson",
+  "Olivia Rodrigo",
+  "The New Yorker",
+  "Sabrina Carpenter",
 ];
 
 function VibeRotator() {
