@@ -52,7 +52,6 @@ function Coach() {
         pilatesqueen: "reformer-style mat flow, 20 min. ribs down, scoop, breathe. tiny but lethal.",
         fibermaxxer: "20 min mobility + chia bowl after. gut + joints, both winning today. 🌱",
         sleepmaxxer: "skip the lift. 20 min mobility, magnesium tonight, screens off by 9. REM maxxing. 🌙",
-        others: "ok homie — 20 min mobility, then we vibe-check. proud of u for showing up. 💖",
       };
       setMsgs((m) => [
         ...m,
