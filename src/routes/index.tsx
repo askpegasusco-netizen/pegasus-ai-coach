@@ -448,7 +448,26 @@ function Pillar({
   );
 }
 
-function Metric({ label, value, unit }: { label: string; value: string; unit?: string }) {
+function Metric({
+  label,
+  value,
+  unit,
+  trend,
+  delta,
+}: {
+  label: string;
+  value: string;
+  unit?: string;
+  trend?: "up" | "down" | "flat";
+  delta?: string;
+}) {
+  const trendColor =
+    trend === "up"
+      ? "text-emerald-600"
+      : trend === "down"
+        ? "text-rose-600"
+        : "text-muted-foreground";
+  const arrow = trend === "up" ? "▲" : trend === "down" ? "▼" : "→";
   return (
     <div className="rounded-xl bg-secondary px-2 py-3">
       <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{label}</p>
@@ -456,6 +475,11 @@ function Metric({ label, value, unit }: { label: string; value: string; unit?: s
         {value}
         {unit && <span className="text-xs text-muted-foreground"> {unit}</span>}
       </p>
+      {delta && (
+        <p className={`mt-0.5 text-[10px] font-semibold ${trendColor}`}>
+          {arrow} {delta}
+        </p>
+      )}
     </div>
   );
 }
