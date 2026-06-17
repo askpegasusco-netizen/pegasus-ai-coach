@@ -241,29 +241,9 @@ function Index() {
               "Endeavour Partners / PwC Health Research Institute, Wearables Adoption Study (2022).",
             ],
             [
-              "64%",
-              "of consumers prefer companies do NOT use AI in customer service at all.",
-              "Gartner Customer Service & Support Survey (2024).",
-            ],
-            [
-              "63%",
-              "of consumers will switch brands after a single unsatisfying AI service interaction.",
-              "Callvu Consumer AI Sentiment Report (2024).",
-            ],
-            [
-              "3.9×",
-              "higher 6-month adherence when coaching is personalized to identity, tone, and goal.",
-              "Journal of Medical Internet Research mHealth, Personalized Digital Coaching Meta-Analysis (2023).",
-            ],
-            [
               "21%",
               "average dropout in standard digital health interventions vs. 6% in identity-matched coaching.",
               "Nature npj Digital Medicine, Adherence in mHealth Apps (2022).",
-            ],
-            [
-              "57%",
-              "of Gen Z report higher trust in AI that uses their generational tone, memes, and voice.",
-              "Deloitte Digital, Gen Z & AI Trust Index (2024).",
             ],
             [
               "2.4×",
