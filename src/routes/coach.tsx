@@ -15,13 +15,13 @@ const SEED: Msg[] = [
   {
     id: "1",
     from: "coach",
-    text: "Job's not finished. HRV's up 4ms — that's the green light. Push upper body today?",
+    text: "yo HRV's up 4ms — green light fr. push upper today or we lock in mobility?",
   },
-  { id: "2", from: "you", text: "I'm tired tho. Maybe rest?" },
+  { id: "2", from: "you", text: "i'm tired tho. maybe rest?" },
   {
     id: "3",
     from: "coach",
-    text: "Tired-tired, or 'haven't started' tired? Be honest with me. We can swap to a 20-min mobility flow and protect sleep tonight. Same outcome, less ego.",
+    text: "tired-tired, or 'haven't started' tired? be real w me bestie. 20-min mobility flow + early sleep — same gains, no ick. 🌿",
   },
 ];
 
@@ -44,23 +44,26 @@ function Coach() {
     setTyping(true);
     setTimeout(() => {
       const replies: Record<string, string> = {
-        kobe: "Mamba mentality: you don't ask the body, you tell it. 20-min mobility, 4-min box breath, then we re-check. Go.",
-        lebron: "King mode. We not skipping today, we *scaling*. 20-min mobility + protein hit. Locked in. 👑",
-        kendall: "OK, OK — chill flex. 20 minutes, nothing crazy. We are *not* posting a bad workout. Let's just move.",
-        patrick: "I find the morning, after a brief 20-minute mobility flow, that I'm most productive. Begin.",
-        ronaldo: "Mentality, work, dedication. 20 minutes is *nothing*. Andiamo. Siuuu.",
-        zendaya: "Hey — we protecting your peace. 20 min slow flow, then a 4-min breath. Glow comes from rest too. 🌿",
+        gymrat: "bro 20 min is nothing, rack it up. mobility + 1 light push set. we eat after. 😤",
+        aurafarmer: "no talk. 20 min mobility. aura points only go up when u show up. 🗿",
+        softgirl: "babe — slow flow, candle on, matcha after. protecting the peace today 🌸",
+        zenmaster: "box breath 4-4-8, then 20 min mobility. the body's asking, listen.",
+        rizzmaxxer: "20 min flow, posture work, fit check after. W rizz loading. 💅",
+        pilatesqueen: "reformer-style mat flow, 20 min. ribs down, scoop, breathe. tiny but lethal.",
+        fibermaxxer: "20 min mobility + chia bowl after. gut + joints, both winning today. 🌱",
+        sleepmaxxer: "skip the lift. 20 min mobility, magnesium tonight, screens off by 9. REM maxxing. 🌙",
+        others: "ok homie — 20 min mobility, then we vibe-check. proud of u for showing up. 💖",
       };
       setMsgs((m) => [
         ...m,
-        { id: crypto.randomUUID(), from: "coach", text: replies[character.id] ?? replies.kobe },
+        { id: crypto.randomUUID(), from: "coach", text: replies[character.id] ?? replies.gymrat },
       ]);
       setTyping(false);
     }, 900);
   }
 
   return (
-    <AppShell subtitle="AI Coach" title={`Talking to ${character.name}`}>
+    <AppShell subtitle="AI Coach" title={`Talking to my ${character.name}`}>
       <div className="grid gap-5 lg:grid-cols-[260px_1fr]">
         {/* Persona switcher */}
         <Card className="h-fit">
