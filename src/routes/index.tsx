@@ -294,7 +294,7 @@ function Index() {
       </Section>
 
       {/* Characters */}
-      <Section id="characters" eyebrow="Coaches" title="Pick the voice you actually want in your head.">
+      <Section id="characters" eyebrow="Coaches" title="Choose Your Homie, Serving Main Character Energy ✨">
         <div className="grid gap-4 md:grid-cols-3">
           {CHARACTERS.map((c) => (
             <div key={c.id} className="group relative rounded-2xl border border-border bg-card/80 p-5 transition hover:-translate-y-1 hover:border-primary/50 hover:shadow-lg">
@@ -350,7 +350,7 @@ function Index() {
       </Section>
 
       {/* Pricing */}
-      <Section id="pricing" eyebrow="Pricing" title="Free to Start with Homie, Ride until The end with Homie too 🔥">
+      <Section id="pricing" eyebrow="Pricing" title="Feel Free to Start with Homie, Go Down The Road with Homie too 🔥">
         <div className="grid gap-5 md:grid-cols-4">
           {[
             ["Free", "—", "Basic tracking · 1-mo trial"],
