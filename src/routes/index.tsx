@@ -150,17 +150,24 @@ function Index() {
             <div className="relative rounded-[2rem] border border-border/60 bg-card/80 p-6 shadow-xl backdrop-blur-xl">
               <div className="flex items-center justify-between">
                 <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-primary">
-                  ◐ Live · Coached by Mamba
+                  ◐ Live · Coached by your Homie
                 </p>
                 <Pill>🔥 Streak 12</Pill>
               </div>
-              <p className="mt-4 font-display text-2xl text-ink">
-                "Job's not finished. One more rep. Then one more."
-              </p>
-              <div className="mt-5 grid grid-cols-3 gap-3 text-center">
-                <Metric label="HRV" value="68" unit="ms" />
-                <Metric label="Sleep" value="7h 42m" />
-                <Metric label="Stress" value="3.1" unit="/10" />
+              {/* AI insight on mood → plan adaption */}
+              <div className="mt-4 rounded-2xl border border-primary/30 bg-primary/5 p-3">
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">
+                  ✦ Pega Insight · Mood: anxious-ish
+                </p>
+                <p className="mt-1 text-sm text-ink">
+                  Cortisol's spicy today — swapped HIIT → mobility flow + magnesium-rich dinner.
+                  We protect the nervous system first, no cap.
+                </p>
+              </div>
+              <div className="mt-4 grid grid-cols-3 gap-3 text-center">
+                <Metric label="HRV" value="68" unit="ms" trend="up" delta="+6%" />
+                <Metric label="Sleep" value="92%" trend="up" delta="+4 pts" />
+                <Metric label="Stress" value="3.1" unit="/10" trend="down" delta="−18%" />
               </div>
               {/* Tech bio-waveform */}
               <svg viewBox="0 0 300 40" className="mt-4 h-10 w-full text-primary/70" preserveAspectRatio="none" aria-hidden>
@@ -183,6 +190,22 @@ function Index() {
                 <button className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground">
                   Start <ArrowRight className="h-3 w-3" />
                 </button>
+              </div>
+              {/* Weekly prediction */}
+              <div className="mt-3 rounded-2xl border border-border bg-card/60 p-3">
+                <div className="flex items-center justify-between">
+                  <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                    7-Day Prediction
+                  </p>
+                  <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-700">
+                    On track ↗
+                  </span>
+                </div>
+                <div className="mt-2 grid grid-cols-3 gap-2 text-center text-[11px]">
+                  <div><p className="text-muted-foreground">Recovery</p><p className="font-semibold text-ink">84 → 89 ▲</p></div>
+                  <div><p className="text-muted-foreground">Peace™</p><p className="font-semibold text-ink">7.4 → 8.1 ▲</p></div>
+                  <div><p className="text-muted-foreground">Streak</p><p className="font-semibold text-ink">12 → 19 ▲</p></div>
+                </div>
               </div>
               <div className="mt-3 flex items-center justify-between rounded-xl border border-destructive/30 bg-destructive/5 px-3 py-2">
                 <span className="flex items-center gap-2 text-xs font-semibold text-destructive">
