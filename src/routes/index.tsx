@@ -277,8 +277,9 @@ function Index() {
             Daily mood check-ins, peace score, and a panic button that auto-launches a
             calming protocol the second your stress spikes.
           </Pillar>
-          <Pillar icon={HeartPulse} title="Role-model character coach">
-            Pick Mamba, Bron, CR7, Kendall Roy — the AI speaks in their voice, with the
+          <Pillar icon={HeartPulse} title="Persona-coded character coach">
+            Pick your vibe — Gym Rat, Aura Farmer, Soft Girl, Zen Master, Rizzmaxxer,
+            Pilates Queen, Fibermaxxer, Sleepmaxxer — the AI speaks in that tone, with the
             memes and GIFs Gen Z and Millennials actually respond to.
           </Pillar>
           <Pillar icon={Activity} title="Action plan with predicted outcomes">
@@ -288,10 +289,6 @@ function Index() {
           <Pillar icon={Trophy} title="PegaFam community + battles">
             Friendly battles, leaderboards, Spotify-Wrapped-style shareable milestones.
             Surprise boxes break the routine so you keep coming back.
-          </Pillar>
-          <Pillar icon={Sparkles} title="One Tap on All Bookings">
-            Book no-sus plans in one tap on ClassPass, Mindbody, Zocdoc, BetterHelp,
-            Timeleft. Literally from head to toes, we got you covered. 😉
           </Pillar>
         </div>
       </Section>
@@ -331,16 +328,13 @@ function Index() {
               {[
                 ["Biometric data → actual next action", "✓", "—", "—", "—"],
                 ["Speaks Gen Z / Millennial slang (no robotic AI)", "✓", "—", "—", "—"],
-                ["Coach in your role-model's voice (Kobe, CR7, Sabrina…)", "✓", "—", "—", "—"],
                 ["Mental + physical health in ONE loop", "✓", "—", "—", "—"],
                 ["Panic-button auto-intervention", "✓", "—", "—", "—"],
                 ["Predicted outcomes (wk / mo / qtr)", "✓", "—", "—", "—"],
                 ["Spotify character playlist sync", "✓", "—", "—", "—"],
                 ["Smart glasses application", "✓", "—", "—", "—"],
                 ["HD video form-check", "✓", "—", "✓", "—"],
-                ["One-tap ecosystem booking (ClassPass, Zocdoc…)", "✓", "—", "—", "—"],
                 ["Shareable community battles + wraps", "✓", "—", "—", "—"],
-                ["Surprise-box anti-boredom loop", "✓", "—", "—", "—"],
               ].map(([f, p, a, b, c]) => (
                 <tr key={f} className="border-t border-border">
                   <td className="px-4 py-2.5 font-medium text-ink">{f}</td>
@@ -356,7 +350,7 @@ function Index() {
       </Section>
 
       {/* Pricing */}
-      <Section id="pricing" eyebrow="Pricing" title="Free to start. Pay when the habit sticks.">
+      <Section id="pricing" eyebrow="Pricing" title="Free to Start with Homie, Ride until The end with Homie too 🔥">
         <div className="grid gap-5 md:grid-cols-4">
           {[
             ["Free", "—", "Basic tracking · 1-mo trial"],
