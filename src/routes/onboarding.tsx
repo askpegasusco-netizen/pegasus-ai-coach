@@ -157,8 +157,6 @@ function Onboarding() {
   // coach
   const [coachGender, setCoachGender] = useState<"male" | "female">("male");
   const [character, setCharacter] = useState("kobe");
-  const [customCoachName, setCustomCoachName] = useState("");
-  const [customCoachShots, setCustomCoachShots] = useState<string[]>([]);
   // plan reveal
   const [openDay, setOpenDay] = useState<string | null>("Mon");
   const navigate = useNavigate();
