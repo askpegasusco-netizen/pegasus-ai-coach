@@ -27,19 +27,14 @@ export const Route = createFileRoute("/")({
 });
 
 const VIBE_NAMES = [
-  "Kobe Bryant",
-  "CR7",
-  "Taylor Swift",
-  "Serena Williams",
-  "Simone Biles",
-  "Batman",
-  "Mom",
-  "Vanessa Hudgens",
-  "Christian Bale",
-  "Jalen Brunson",
-  "Olivia Rodrigo",
-  "The New Yorker",
-  "Sabrina Carpenter",
+  "Gym Rat",
+  "Aura Farmer",
+  "Soft Girl",
+  "Zen Master",
+  "Rizzmaxxer",
+  "Pilates Queen",
+  "Fibermaxxer",
+  "Sleepmaxxer",
 ];
 
 function VibeRotator() {
@@ -112,14 +107,15 @@ function Index() {
               Live · Biometrics streaming
             </span>
             <h1 className="mt-5 font-display text-5xl font-semibold leading-[1.05] tracking-tight text-ink md:text-7xl">
-              Vibe Training with <VibeRotator />.
+              Vibe Training with my <VibeRotator />.
               <br />
               Change Your Life in <span className="italic">Just 3 Seconds</span>.
             </h1>
             <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-              Ask Pegasus for WTF your wearable biometrics mean, and actually get shi done in
-              your pace for both fitness and mental health 💪. Start Auramaxxing rn with your
-              own customized AI BFF Coach. Let's go #PegasusFam 🔥
+              Ask Pegasus for the rizz on your wearable biometrics mean, and actually get
+              no-sus fitness and mental plans 💪
+              <br />
+              Start Auramaxxing rn with your favorite AI Homie Coach. Let's go #PegasusFam 🔥
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
