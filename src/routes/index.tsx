@@ -27,19 +27,14 @@ export const Route = createFileRoute("/")({
 });
 
 const VIBE_NAMES = [
-  "Kobe Bryant",
-  "CR7",
-  "Taylor Swift",
-  "Serena Williams",
-  "Simone Biles",
-  "Batman",
-  "Mom",
-  "Vanessa Hudgens",
-  "Christian Bale",
-  "Jalen Brunson",
-  "Olivia Rodrigo",
-  "The New Yorker",
-  "Sabrina Carpenter",
+  "Gym Rat",
+  "Aura Farmer",
+  "Soft Girl",
+  "Zen Master",
+  "Rizzmaxxer",
+  "Pilates Queen",
+  "Fibermaxxer",
+  "Sleepmaxxer",
 ];
 
 function VibeRotator() {
@@ -112,14 +107,15 @@ function Index() {
               Live · Biometrics streaming
             </span>
             <h1 className="mt-5 font-display text-5xl font-semibold leading-[1.05] tracking-tight text-ink md:text-7xl">
-              Vibe Training with <VibeRotator />.
+              Vibe Training with my <VibeRotator />.
               <br />
               Change Your Life in <span className="italic">Just 3 Seconds</span>.
             </h1>
             <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-              Ask Pegasus for WTF your wearable biometrics mean, and actually get shi done in
-              your pace for both fitness and mental health 💪. Start Auramaxxing rn with your
-              own customized AI BFF Coach. Let's go #PegasusFam 🔥
+              Ask Pegasus for the rizz on your wearable biometrics mean, and actually get
+              no-sus fitness and mental plans 💪
+              <br />
+              Start Auramaxxing rn with your favorite AI Homie Coach. Let's go #PegasusFam 🔥
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
@@ -154,17 +150,24 @@ function Index() {
             <div className="relative rounded-[2rem] border border-border/60 bg-card/80 p-6 shadow-xl backdrop-blur-xl">
               <div className="flex items-center justify-between">
                 <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-primary">
-                  ◐ Live · Coached by Mamba
+                  ◐ Live · Coached by your Homie
                 </p>
                 <Pill>🔥 Streak 12</Pill>
               </div>
-              <p className="mt-4 font-display text-2xl text-ink">
-                "Job's not finished. One more rep. Then one more."
-              </p>
-              <div className="mt-5 grid grid-cols-3 gap-3 text-center">
-                <Metric label="HRV" value="68" unit="ms" />
-                <Metric label="Sleep" value="7h 42m" />
-                <Metric label="Stress" value="3.1" unit="/10" />
+              {/* AI insight on mood → plan adaption */}
+              <div className="mt-4 rounded-2xl border border-primary/30 bg-primary/5 p-3">
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">
+                  ✦ Pega Insight · Mood: anxious-ish
+                </p>
+                <p className="mt-1 text-sm text-ink">
+                  Cortisol's spicy today — swapped HIIT → mobility flow + magnesium-rich dinner.
+                  We protect the nervous system first, no cap.
+                </p>
+              </div>
+              <div className="mt-4 grid grid-cols-3 gap-3 text-center">
+                <Metric label="HRV" value="68" unit="ms" trend="up" delta="+6%" />
+                <Metric label="Sleep" value="92%" trend="up" delta="+4 pts" />
+                <Metric label="Stress" value="3.1" unit="/10" trend="down" delta="−18%" />
               </div>
               {/* Tech bio-waveform */}
               <svg viewBox="0 0 300 40" className="mt-4 h-10 w-full text-primary/70" preserveAspectRatio="none" aria-hidden>
@@ -187,6 +190,22 @@ function Index() {
                 <button className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground">
                   Start <ArrowRight className="h-3 w-3" />
                 </button>
+              </div>
+              {/* Weekly prediction */}
+              <div className="mt-3 rounded-2xl border border-border bg-card/60 p-3">
+                <div className="flex items-center justify-between">
+                  <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                    7-Day Prediction
+                  </p>
+                  <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-700">
+                    On track ↗
+                  </span>
+                </div>
+                <div className="mt-2 grid grid-cols-3 gap-2 text-center text-[11px]">
+                  <div><p className="text-muted-foreground">Recovery</p><p className="font-semibold text-ink">84 → 89 ▲</p></div>
+                  <div><p className="text-muted-foreground">Peace™</p><p className="font-semibold text-ink">7.4 → 8.1 ▲</p></div>
+                  <div><p className="text-muted-foreground">Streak</p><p className="font-semibold text-ink">12 → 19 ▲</p></div>
+                </div>
               </div>
               <div className="mt-3 flex items-center justify-between rounded-xl border border-destructive/30 bg-destructive/5 px-3 py-2">
                 <span className="flex items-center gap-2 text-xs font-semibold text-destructive">
@@ -222,29 +241,9 @@ function Index() {
               "Endeavour Partners / PwC Health Research Institute, Wearables Adoption Study (2022).",
             ],
             [
-              "64%",
-              "of consumers prefer companies do NOT use AI in customer service at all.",
-              "Gartner Customer Service & Support Survey (2024).",
-            ],
-            [
-              "63%",
-              "of consumers will switch brands after a single unsatisfying AI service interaction.",
-              "Callvu Consumer AI Sentiment Report (2024).",
-            ],
-            [
-              "3.9×",
-              "higher 6-month adherence when coaching is personalized to identity, tone, and goal.",
-              "Journal of Medical Internet Research mHealth, Personalized Digital Coaching Meta-Analysis (2023).",
-            ],
-            [
               "21%",
               "average dropout in standard digital health interventions vs. 6% in identity-matched coaching.",
               "Nature npj Digital Medicine, Adherence in mHealth Apps (2022).",
-            ],
-            [
-              "57%",
-              "of Gen Z report higher trust in AI that uses their generational tone, memes, and voice.",
-              "Deloitte Digital, Gen Z & AI Trust Index (2024).",
             ],
             [
               "2.4×",
@@ -278,8 +277,9 @@ function Index() {
             Daily mood check-ins, peace score, and a panic button that auto-launches a
             calming protocol the second your stress spikes.
           </Pillar>
-          <Pillar icon={HeartPulse} title="Role-model character coach">
-            Pick Mamba, Bron, CR7, Kendall Roy — the AI speaks in their voice, with the
+          <Pillar icon={HeartPulse} title="Persona-coded character coach">
+            Pick your vibe — Gym Rat, Aura Farmer, Soft Girl, Zen Master, Rizzmaxxer,
+            Pilates Queen, Fibermaxxer, Sleepmaxxer — the AI speaks in that tone, with the
             memes and GIFs Gen Z and Millennials actually respond to.
           </Pillar>
           <Pillar icon={Activity} title="Action plan with predicted outcomes">
@@ -289,10 +289,6 @@ function Index() {
           <Pillar icon={Trophy} title="PegaFam community + battles">
             Friendly battles, leaderboards, Spotify-Wrapped-style shareable milestones.
             Surprise boxes break the routine so you keep coming back.
-          </Pillar>
-          <Pillar icon={Sparkles} title="One Tap on All Bookings">
-            Book no-sus plans in one tap on ClassPass, Mindbody, Zocdoc, BetterHelp,
-            Timeleft. Literally from head to toes, we got you covered. 😉
           </Pillar>
         </div>
       </Section>
@@ -332,16 +328,13 @@ function Index() {
               {[
                 ["Biometric data → actual next action", "✓", "—", "—", "—"],
                 ["Speaks Gen Z / Millennial slang (no robotic AI)", "✓", "—", "—", "—"],
-                ["Coach in your role-model's voice (Kobe, CR7, Sabrina…)", "✓", "—", "—", "—"],
                 ["Mental + physical health in ONE loop", "✓", "—", "—", "—"],
                 ["Panic-button auto-intervention", "✓", "—", "—", "—"],
                 ["Predicted outcomes (wk / mo / qtr)", "✓", "—", "—", "—"],
                 ["Spotify character playlist sync", "✓", "—", "—", "—"],
                 ["Smart glasses application", "✓", "—", "—", "—"],
                 ["HD video form-check", "✓", "—", "✓", "—"],
-                ["One-tap ecosystem booking (ClassPass, Zocdoc…)", "✓", "—", "—", "—"],
                 ["Shareable community battles + wraps", "✓", "—", "—", "—"],
-                ["Surprise-box anti-boredom loop", "✓", "—", "—", "—"],
               ].map(([f, p, a, b, c]) => (
                 <tr key={f} className="border-t border-border">
                   <td className="px-4 py-2.5 font-medium text-ink">{f}</td>
@@ -357,7 +350,7 @@ function Index() {
       </Section>
 
       {/* Pricing */}
-      <Section id="pricing" eyebrow="Pricing" title="Free to start. Pay when the habit sticks.">
+      <Section id="pricing" eyebrow="Pricing" title="Free to Start with Homie, Ride until The end with Homie too 🔥">
         <div className="grid gap-5 md:grid-cols-4">
           {[
             ["Free", "—", "Basic tracking · 1-mo trial"],
@@ -429,7 +422,26 @@ function Pillar({
   );
 }
 
-function Metric({ label, value, unit }: { label: string; value: string; unit?: string }) {
+function Metric({
+  label,
+  value,
+  unit,
+  trend,
+  delta,
+}: {
+  label: string;
+  value: string;
+  unit?: string;
+  trend?: "up" | "down" | "flat";
+  delta?: string;
+}) {
+  const trendColor =
+    trend === "up"
+      ? "text-emerald-600"
+      : trend === "down"
+        ? "text-rose-600"
+        : "text-muted-foreground";
+  const arrow = trend === "up" ? "▲" : trend === "down" ? "▼" : "→";
   return (
     <div className="rounded-xl bg-secondary px-2 py-3">
       <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">{label}</p>
@@ -437,6 +449,11 @@ function Metric({ label, value, unit }: { label: string; value: string; unit?: s
         {value}
         {unit && <span className="text-xs text-muted-foreground"> {unit}</span>}
       </p>
+      {delta && (
+        <p className={`mt-0.5 text-[10px] font-semibold ${trendColor}`}>
+          {arrow} {delta}
+        </p>
+      )}
     </div>
   );
 }
