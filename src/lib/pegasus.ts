@@ -89,14 +89,6 @@ export const CHARACTERS = [
     sample: "phone in the other room. magnesium glycinate. 67°F. we are sleepmaxxing tonight, no debate.",
     accent: "from-sky-200 to-stone-200",
   },
-  {
-    id: "others",
-    name: "Others — Build Your BFF",
-    tag: "Custom Voice",
-    vibe: "Got Locked in with your friends, mom, mentor, or even your high school crush.",
-    sample: "Paste a few chats — we'll make Pega sound like your homies, no cap.",
-    accent: "from-clay/60 to-sand",
-  },
 ];
 
 export const VIBES = [
