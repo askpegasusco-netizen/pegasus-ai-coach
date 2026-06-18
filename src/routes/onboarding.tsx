@@ -307,10 +307,10 @@ function Onboarding() {
           )}
           {step === 2 && (
             <div>
-              <H>My OG Profile 🎤</H>
-              <P>add your info so your homie makes no-sus plan for ya</P>
+              <H>OG Profile 🎤</H>
+              <P>add your info so homie makes no-sus plan for ya</P>
               <div className="mt-6 grid gap-4 md:grid-cols-2">
-                <Field label="My birth month & year">
+                <Field label="Birth month & year">
                   <div className="flex gap-2">
                     <select
                       value={birthMonth}
@@ -332,7 +332,7 @@ function Onboarding() {
                     </select>
                   </div>
                 </Field>
-                <Field label="My gender">
+                <Field label="Gender">
                   <select
                     value={gender}
                     onChange={(e) => setGender(e.target.value as typeof gender)}
@@ -343,7 +343,7 @@ function Onboarding() {
                     ))}
                   </select>
                 </Field>
-                <Field label="My weight">
+                <Field label="Weight">
                   <div className="flex gap-2">
                     <Input placeholder={weightUnit === "lb" ? "160" : "73"} />
                     <UnitToggle
@@ -353,7 +353,7 @@ function Onboarding() {
                     />
                   </div>
                 </Field>
-                <Field label="My height">
+                <Field label="Height">
                   <div className="flex gap-2">
                     <Input placeholder={heightUnit === "in" ? `5'10"` : "178"} />
                     <UnitToggle
@@ -380,6 +380,72 @@ function Onboarding() {
                     <span>5 · Most active</span>
                   </div>
                 </Field>
+                {gender === "Woman" && (
+                  <Field label="Cycle check-in (we plan around it, no shame)" className="md:col-span-2">
+                    <p className="mb-2 text-xs text-muted-foreground">
+                      what does ur cycle actually do to you? tap all that hit.
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {[
+                        "Cramps that wreck me",
+                        "Mood swings / rage",
+                        "Bloating",
+                        "Energy crash",
+                        "Acne flares",
+                        "PMS anxiety",
+                        "Irregular AF",
+                        "PCOS vibes",
+                        "Heavy flow",
+                        "Nope, smooth sailing",
+                      ].map((c) => (
+                        <Chip key={c} active={cycleConcerns.includes(c)} onClick={() => toggleCycle(c)}>
+                          {c}
+                        </Chip>
+                      ))}
+                    </div>
+                    <p className="mt-4 mb-2 text-xs text-muted-foreground">
+                      do you move during ur period?
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {([
+                        ["yes", "yea I lock in"],
+                        ["kinda", "lowkey, light stuff"],
+                        ["no", "nah, I rest"],
+                      ] as const).map(([id, lbl]) => (
+                        <Chip key={id} active={exercisesDuringPeriod === id} onClick={() => setExercisesDuringPeriod(id)}>
+                          {lbl}
+                        </Chip>
+                      ))}
+                    </div>
+                    {exercisesDuringPeriod && exercisesDuringPeriod !== "no" && (
+                      <>
+                        <p className="mt-4 mb-2 text-xs text-muted-foreground">
+                          what's ur period-friendly move? pick ur faves.
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {[
+                            "Pilates / Reformer",
+                            "Yoga / yin flow",
+                            "Zone 2 walks",
+                            "Light strength",
+                            "Swimming",
+                            "Dance / barre",
+                          ].map((s) => (
+                            <Chip key={s} active={periodSports.includes(s)} onClick={() => togglePeriodSport(s)}>
+                              {s}
+                            </Chip>
+                          ))}
+                        </div>
+                        <Input
+                          className="mt-3"
+                          placeholder="other (drop it here, bestie)"
+                          value={periodSportOther}
+                          onChange={(e) => setPeriodSportOther(e.target.value)}
+                        />
+                      </>
+                    )}
+                  </Field>
+                )}
                 <Field label="Health restrictions / injuries" className="md:col-span-2">
                   <p className="mb-2 text-xs text-muted-foreground">
                     Common picks for {gender === "Woman" ? "women" : gender === "Man" ? "men" : "your profile"} — tap all that apply.
