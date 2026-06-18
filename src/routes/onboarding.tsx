@@ -761,12 +761,14 @@ function Welcome({ onNext }: { onNext: () => void }) {
   );
 }
 
-const DAY_PLAN: {
+type DayPlan = {
   day: string;
   title: string;
   intensity: "Low" | "Medium" | "High";
   steps: string[];
-}[] = [
+};
+
+const DAY_PLAN: DayPlan[] = [
   { day: "Mon", title: "Mamba Push · 35-min upper + 5-min box breathing", intensity: "High",
     steps: ["Warm-up: 5 min jump rope", "DB Bench Press 4×8", "Pull-ups 4×6 (assisted ok)", "Seated Row 3×10", "Finisher: 5 min box breathing (4-4-4-4)"] },
   { day: "Tue", title: "Recovery walk + Mindfulness 10m", intensity: "Low",
@@ -783,6 +785,81 @@ const DAY_PLAN: {
     steps: ["10 min body-scan meditation", "Review week: wins, misses, energy", "Set 1 micro-goal for next week"] },
 ];
 
+// Persona-aware weekly plans (Disciplined / Longevity / Metabolic / Mental-health)
+const PERSONA_PLANS: Record<string, DayPlan[]> = {
+  alex: [
+    { day: "Mon", title: "Heavy Push · 45-min bench + OHP + finisher", intensity: "High",
+      steps: ["5 min row warm-up", "Bench Press 5×5", "OHP 4×6", "Weighted dips 3×AMRAP", "Finisher: farmer carries 4×40m"] },
+    { day: "Tue", title: "Sprint pyramid · HRR check", intensity: "High",
+      steps: ["Dynamic warm-up 5 min", "10-20-30-40-30-20-10s sprints / 60s off", "Track HRR @ 60s post-sprint", "Cool-down 5 min"] },
+    { day: "Wed", title: "Pull day · back + biceps", intensity: "High",
+      steps: ["Pull-ups 5×5", "Barbell row 4×8", "Lat pulldown 3×10", "Hammer curls 3×12"] },
+    { day: "Thu", title: "Active recovery · zone 2 + mobility", intensity: "Low",
+      steps: ["40 min zone 2 ruck", "10 min hip + shoulder mobility"] },
+    { day: "Fri", title: "Leg day · squat + DL", intensity: "High",
+      steps: ["Back squat 5×5", "RDL 4×8", "Walking lunges 3×12", "Calf raises 4×15"] },
+    { day: "Sat", title: "Hybrid · trail run + bodyweight", intensity: "Medium",
+      steps: ["5K trail run", "Push-up + pull-up ladder", "Plank 3×60s"] },
+    { day: "Sun", title: "Mobility + game film", intensity: "Low",
+      steps: ["20 min stretch flow", "Review week strain score", "Set next week PR target"] },
+  ],
+  zack: [
+    { day: "Mon", title: "Zone 2 base · 50 min HR-capped", intensity: "Medium",
+      steps: ["AM sunlight 10 min", "50 min HR <140 bpm bike/jog", "Nasal-only breathing"] },
+    { day: "Tue", title: "Strength · longevity protocol", intensity: "Medium",
+      steps: ["Goblet squat 3×10", "DB bench 3×10", "Row 3×10", "Carry 3×40m · slow + controlled"] },
+    { day: "Wed", title: "VO₂ max intervals · 4×4", intensity: "High",
+      steps: ["10 min warm-up", "4 min @ 90% HR / 3 min easy ×4", "Cool-down 5 min", "Log VO₂ trend"] },
+    { day: "Thu", title: "Recovery · sauna + cold", intensity: "Low",
+      steps: ["15 min sauna ×2", "2 min cold plunge", "20 min walk + magnesium tonight"] },
+    { day: "Fri", title: "Full body lift · tempo", intensity: "Medium",
+      steps: ["Deadlift 3×5", "OHP 3×8", "Pull-up 3×AMRAP", "Plank 3×45s"] },
+    { day: "Sat", title: "Long zone 2 · 75 min", intensity: "Medium",
+      steps: ["75 min hike or bike, HR <140", "Audiobook / podcast", "Electrolytes + protein after"] },
+    { day: "Sun", title: "Sleep stack reset", intensity: "Low",
+      steps: ["10 min breathwork", "Screens off 9pm", "Review HRV / RHR weekly trend"] },
+  ],
+  maddie: [
+    { day: "Mon", title: "Reformer Pilates · 50 min full body", intensity: "Medium",
+      steps: ["Footwork series", "Long box pulling straps", "Side-lying leg work", "Short box ab series"] },
+    { day: "Tue", title: "Incline walk · zone 2 + matcha", intensity: "Low",
+      steps: ["12-3-30 incline walk · 30 min", "Podcast on", "Protein matcha after"] },
+    { day: "Wed", title: "Mat Pilates + light DB", intensity: "Medium",
+      steps: ["100s + roll-up", "Single-leg circles", "DB lateral raise 3×12", "Glute bridge 3×15"] },
+    { day: "Thu", title: "Soft strength day", intensity: "Medium",
+      steps: ["Goblet squat 3×10", "Hip thrust 3×10", "DB row 3×10", "Ab finisher 5 min"] },
+    { day: "Fri", title: "Reformer cardio jumpboard", intensity: "Medium",
+      steps: ["10 min jumpboard intervals", "Tower work", "Stretch series"] },
+    { day: "Sat", title: "Long walk + brunch", intensity: "Low",
+      steps: ["60 min outdoor walk", "Protein-forward brunch", "Aura recharge"] },
+    { day: "Sun", title: "Stretch + sauna", intensity: "Low",
+      steps: ["20 min yin stretch", "15 min sauna", "Plan next week meals"] },
+  ],
+  riley: [
+    { day: "Mon", title: "Slow flow yoga · 45 min", intensity: "Low",
+      steps: ["10 min breathwork (box 4-4-4-4)", "30 min vinyasa flow", "5 min savasana"] },
+    { day: "Tue", title: "Walk + journaling", intensity: "Low",
+      steps: ["30 min outdoor walk no phone", "3-line gratitude journal", "EDA check-in"] },
+    { day: "Wed", title: "Yin yoga + somatic release", intensity: "Low",
+      steps: ["Hip openers 5 min holds", "Heart openers", "Body scan meditation 10 min"] },
+    { day: "Thu", title: "Light strength · gentle", intensity: "Medium",
+      steps: ["Bodyweight squats 3×10", "Push-ups (knee ok) 3×8", "Plank 3×30s"] },
+    { day: "Fri", title: "Restorative flow + breathwork", intensity: "Low",
+      steps: ["4-7-8 breath 5 min", "Restorative poses w/ bolsters", "Yoga nidra 15 min"] },
+    { day: "Sat", title: "Nature reset", intensity: "Low",
+      steps: ["60 min nature walk / forest bathing", "Sit + observe 10 min", "No screens till noon"] },
+    { day: "Sun", title: "Sunday quiet · prep + meditate", intensity: "Low",
+      steps: ["20 min meditation", "Tea ritual", "Set weekly intention"] },
+  ],
+};
+
+const PERSONA_DIET_DEFAULT: Record<string, string> = {
+  alex: "base",
+  zack: "Mediterranean",
+  maddie: "base",
+  riley: "Vegan",
+};
+
 function PlanReveal({
   focus,
   stress,
@@ -790,6 +867,7 @@ function PlanReveal({
   restrictions,
   openDay,
   setOpenDay,
+  character,
 }: {
   focus: string[];
   stress: number;
@@ -797,6 +875,7 @@ function PlanReveal({
   restrictions: string[];
   openDay: string | null;
   setOpenDay: (d: string | null) => void;
+  character: string;
 }) {
   // Per-day diverse diet rotation tuned to dietary preference
   const weeklyDietBank: Record<string, { meal: string; healthy: string; treat: string }[][]> = {
