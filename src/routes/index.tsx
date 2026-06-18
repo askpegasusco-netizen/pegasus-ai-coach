@@ -408,7 +408,7 @@ function Section({
     <section id={id} className="mx-auto max-w-7xl px-6 py-16">
       <div className="mb-10 max-w-2xl">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">{eyebrow}</p>
-        <h2 className="mt-2 font-display text-4xl font-semibold text-ink md:text-5xl">{title}</h2>
+        <h2 className="mt-2 whitespace-pre-line font-display text-4xl font-semibold text-ink md:text-5xl">{title}</h2>
       </div>
       {children}
     </section>
