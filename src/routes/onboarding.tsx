@@ -491,8 +491,8 @@ function Onboarding() {
           )}
           {step === 3 && (
             <div>
-              <H>What are you here for?</H>
-              <P>Pick all that apply — we'll prioritize them in your plan.</P>
+              <H>what u tryna lock in for? 👀</H>
+              <P>tap all that hit — we'll stack ur plan around 'em.</P>
               <div className="mt-5 flex flex-wrap gap-2">
                 {GOALS.map((g) => (
                   <Chip key={g} active={focus.includes(g)} onClick={() => toggle(g)}>
@@ -509,7 +509,7 @@ function Onboarding() {
                   type="range"
                   min={0}
                   max={TIMELINES.length - 1}
-                  value={timelineIdx}
+                  value={Math.min(timelineIdx, TIMELINES.length - 1)}
                   onChange={(e) => setTimelineIdx(Number(e.target.value))}
                   className="mt-3 w-full accent-[color:var(--primary)]"
                 />
@@ -523,8 +523,8 @@ function Onboarding() {
           )}
           {step === 4 && (
             <div>
-              <H>Lifestyle baseline</H>
-              <P>Last 7 days — gut answer is fine.</P>
+              <H>baseline check, no judgement</H>
+              <P>think last 7 days — gut answer wins.</P>
               <div className="mt-6 grid gap-5">
                 <Field label={`Sleep quality: ${SLEEP_LABELS[sleep - 1]}`}>
                   <input
@@ -623,8 +623,8 @@ function Onboarding() {
           )}
           {step === 6 && (
             <div>
-              <H>Sync your wearables</H>
-              <P>The more we see, the smarter the plan. You can add more later.</P>
+              <H>plug in ur wearables 🔌</H>
+              <P>more data = smarter homie. add more whenever, no pressure.</P>
               <div className="mt-6 grid gap-3 md:grid-cols-2">
                 {[
                   "Apple Watch",
@@ -639,15 +639,7 @@ function Onboarding() {
                   "Muse Headband",
                   "Eight Sleep",
                   "Garmin",
-                  "Polar Vantage",
-                  "Coros Pace",
-                  "Suunto Race",
                   "Amazfit",
-                  "Withings ScanWatch",
-                  "Levels CGM",
-                  "Lumen Metabolism",
-                  "Apollo Neuro",
-                  "Bia Smart Yoga Pants",
                 ].map((d) => (
                   <label
                     key={d}
@@ -657,6 +649,40 @@ function Onboarding() {
                     <input type="checkbox" className="h-4 w-4 accent-[color:var(--primary)]" />
                   </label>
                 ))}
+              </div>
+              <div className="mt-4 rounded-2xl border border-dashed border-primary/40 bg-primary/5 p-4">
+                <p className="text-sm font-semibold text-ink">Others — ur device not on the list?</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  drop it + ur email, we'll hit u back when it's hooked up 🤝
+                </p>
+                <div className="mt-3 grid gap-2 md:grid-cols-2">
+                  <Input
+                    placeholder="device name (e.g. Polar Vantage)"
+                    value={wearableOther}
+                    onChange={(e) => setWearableOther(e.target.value)}
+                  />
+                  <Input
+                    type="email"
+                    placeholder="ur email"
+                    value={wearableOtherEmail}
+                    onChange={(e) => setWearableOtherEmail(e.target.value)}
+                  />
+                </div>
+                <button
+                  type="button"
+                  disabled={!wearableOther || !wearableOtherEmail}
+                  onClick={() => {
+                    void fetch("/api/public/wearable-request", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ device: wearableOther, email: wearableOtherEmail }),
+                    }).catch(() => {});
+                    setWearableOtherSent(true);
+                  }}
+                  className="mt-3 inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-40"
+                >
+                  {wearableOtherSent ? "Sent ✓ — we got u" : "Request to add"}
+                </button>
               </div>
               <p className="mt-4 text-xs text-muted-foreground">
                 Optional: Spotify & Apple Music for your character workout playlist.
@@ -671,6 +697,7 @@ function Onboarding() {
               restrictions={restrictions}
               openDay={openDay}
               setOpenDay={setOpenDay}
+              character={character}
             />
           )}
 
