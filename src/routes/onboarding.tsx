@@ -972,7 +972,10 @@ function PlanReveal({
         { meal: "Dinner", healthy: "Slow-roast lamb + couscous", treat: "Gelato scoop" } ],
     ],
   };
-  const week = weeklyDietBank[diet] ?? weeklyDietBank.base;
+  const personaDietKey = PERSONA_DIET_DEFAULT[character] ?? "base";
+  const dietKey = diet === "Omnivore" ? personaDietKey : diet;
+  const week = weeklyDietBank[dietKey] ?? weeklyDietBank.base;
+  const plan = PERSONA_PLANS[character] ?? DAY_PLAN;
   const restrictionNote =
     restrictions.length && !restrictions.includes("None")
       ? `Adjusted for: ${restrictions.filter((r) => r !== "None").slice(0, 3).join(", ")}`
@@ -986,7 +989,7 @@ function PlanReveal({
         {restrictionNote ? ` — ${restrictionNote.toLowerCase()}` : ""}. Swap any day before we start.
       </P>
       <div className="mt-6 space-y-2">
-        {DAY_PLAN.map((d, dayIdx) => {
+        {plan.map((d, dayIdx) => {
           const open = openDay === d.day;
           const meals = week[dayIdx % week.length];
           return (
