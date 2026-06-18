@@ -22,6 +22,7 @@ import { Route as CommunityRouteImport } from './routes/community'
 import { Route as CoachRouteImport } from './routes/coach'
 import { Route as CalendarRouteImport } from './routes/calendar'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicWearableRequestRouteImport } from './routes/api/public/wearable-request'
 
 const WaitlistRoute = WaitlistRouteImport.update({
   id: '/waitlist',
@@ -88,6 +89,12 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicWearableRequestRoute =
+  ApiPublicWearableRequestRouteImport.update({
+    id: '/api/public/wearable-request',
+    path: '/api/public/wearable-request',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -103,6 +110,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof ProfileRoute
   '/progress': typeof ProgressRoute
   '/waitlist': typeof WaitlistRoute
+  '/api/public/wearable-request': typeof ApiPublicWearableRequestRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -118,6 +126,7 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileRoute
   '/progress': typeof ProgressRoute
   '/waitlist': typeof WaitlistRoute
+  '/api/public/wearable-request': typeof ApiPublicWearableRequestRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -134,6 +143,7 @@ export interface FileRoutesById {
   '/profile': typeof ProfileRoute
   '/progress': typeof ProgressRoute
   '/waitlist': typeof WaitlistRoute
+  '/api/public/wearable-request': typeof ApiPublicWearableRequestRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -151,6 +161,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/progress'
     | '/waitlist'
+    | '/api/public/wearable-request'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -166,6 +177,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/progress'
     | '/waitlist'
+    | '/api/public/wearable-request'
   id:
     | '__root__'
     | '/'
@@ -181,6 +193,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/progress'
     | '/waitlist'
+    | '/api/public/wearable-request'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -197,6 +210,7 @@ export interface RootRouteChildren {
   ProfileRoute: typeof ProfileRoute
   ProgressRoute: typeof ProgressRoute
   WaitlistRoute: typeof WaitlistRoute
+  ApiPublicWearableRequestRoute: typeof ApiPublicWearableRequestRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -292,6 +306,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/wearable-request': {
+      id: '/api/public/wearable-request'
+      path: '/api/public/wearable-request'
+      fullPath: '/api/public/wearable-request'
+      preLoaderRoute: typeof ApiPublicWearableRequestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -309,6 +330,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileRoute: ProfileRoute,
   ProgressRoute: ProgressRoute,
   WaitlistRoute: WaitlistRoute,
+  ApiPublicWearableRequestRoute: ApiPublicWearableRequestRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

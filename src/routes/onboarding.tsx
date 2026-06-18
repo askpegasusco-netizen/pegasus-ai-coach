@@ -4,12 +4,11 @@ import {
   ArrowRight,
   Check,
   Watch,
-  ShieldAlert,
+  Trophy,
   Sparkles,
   ChevronDown,
   ChevronUp,
   Upload,
-  Plus,
 } from "lucide-react";
 import { useState } from "react";
 import { PegasusLogo } from "@/components/PegasusLogo";
@@ -32,23 +31,7 @@ const STEPS = [
 type AccountSub = "choose" | "verify" | "name";
 type Provider = "apple" | "google" | "email" | "phone";
 
-const MALE_COACHES = [
-  { id: "lebron", name: "LeBron", tag: "Trained Like a King", sample: "Bron mode: 6am, no excuses. Let's eat. 👑", accent: "from-amber-200 to-orange-300" },
-  { id: "kobe", name: "Kobe — Mamba", tag: "Mamba Mentality", sample: "Job's not finished. One more rep.", accent: "from-purple-200 to-rose-200" },
-  { id: "ronaldo", name: "CR7", tag: "Siuuu Mode", sample: "Talent without working hard is nothing. Andiamo. ⚽", accent: "from-emerald-200 to-amber-200" },
-  { id: "kendall", name: "Kendall Roy", tag: "L to the OG", sample: "We are going to absolutely *cook* today, fam.", accent: "from-stone-200 to-amber-100" },
-  { id: "ali", name: "Muhammad Ali", tag: "Float Like a Butterfly", sample: "I am the greatest. I said that even before I knew I was.", accent: "from-amber-100 to-yellow-200" },
-  { id: "batman", name: "Batman", tag: "Dark Knight Discipline", sample: "It's not who I am underneath — it's what I do. 300 reps. Now.", accent: "from-zinc-300 to-stone-400" },
-];
-
-const FEMALE_COACHES = [
-  { id: "zendaya", name: "Z", tag: "Soft Girl Strong", sample: "We protecting our peace AND our protein today.", accent: "from-rose-200 to-amber-100" },
-  { id: "serena", name: "Serena", tag: "Queen of the Court", sample: "Pressure is a privilege. Step up, sis.", accent: "from-rose-200 to-fuchsia-200" },
-  { id: "simone", name: "Simone Biles", tag: "GOAT Energy", sample: "Mental health first. Then we flip.", accent: "from-pink-200 to-amber-200" },
-  { id: "taylor", name: "Tay", tag: "Era Mode", sample: "It's a new era — we're tracking sleep AND songwriting today.", accent: "from-stone-200 to-rose-200" },
-  { id: "bey", name: "Beyoncé", tag: "Run the World", sample: "If we gonna do this, we gonna do it flawless.", accent: "from-amber-200 to-rose-300" },
-  { id: "gg", name: "Girls' Generation", tag: "K-pop Power", sample: "Gee gee gee — one more set, baby baby baby.", accent: "from-rose-200 to-fuchsia-200" },
-];
+import { CHARACTERS } from "@/lib/pegasus";
 
 const GOALS = [
   "Weight control",
@@ -68,7 +51,7 @@ const GOALS = [
   "Surprise Me",
 ];
 
-const TIMELINES = ["2 weeks", "1 month", "3 months", "6 months", "9 months", "1 year"];
+const TIMELINES = ["2 weeks", "1 month", "2 months", "3 months", "6 months"];
 const SLEEP_LABELS = ["Very Bad", "Bad", "OK", "Good", "Very Good"];
 const STRESS_LABEL = (n: number) =>
   n <= 1 ? "Least stressed" : n <= 4 ? "Mild" : n === 5 ? "Moderate" : n <= 8 ? "High" : "Very stressed";
@@ -150,13 +133,21 @@ function Onboarding() {
   const [diet, setDiet] = useState("Omnivore");
   const [headState, setHeadState] = useState<string | null>(null);
   const [workoutStyle, setWorkoutStyle] = useState<string>("let try it first");
+  // female cycle questions
+  const [cycleConcerns, setCycleConcerns] = useState<string[]>([]);
+  const [exercisesDuringPeriod, setExercisesDuringPeriod] = useState<"yes" | "kinda" | "no" | null>(null);
+  const [periodSports, setPeriodSports] = useState<string[]>([]);
+  const [periodSportOther, setPeriodSportOther] = useState("");
+  // wearables others
+  const [wearableOther, setWearableOther] = useState("");
+  const [wearableOtherEmail, setWearableOtherEmail] = useState("");
+  const [wearableOtherSent, setWearableOtherSent] = useState(false);
   // account sub-flow
   const [accountSub, setAccountSub] = useState<AccountSub>("choose");
   const [provider, setProvider] = useState<Provider | null>(null);
   const [name, setName] = useState("");
   // coach
-  const [coachGender, setCoachGender] = useState<"male" | "female">("male");
-  const [character, setCharacter] = useState("kobe");
+  const [character, setCharacter] = useState(CHARACTERS[0].id);
   // plan reveal
   const [openDay, setOpenDay] = useState<string | null>("Mon");
   const navigate = useNavigate();
@@ -165,6 +156,10 @@ function Onboarding() {
     setFocus((s) => (s.includes(v) ? s.filter((x) => x !== v) : [...s, v]));
   const toggleRestriction = (v: string) =>
     setRestrictions((s) => (s.includes(v) ? s.filter((x) => x !== v) : [...s, v]));
+  const toggleCycle = (v: string) =>
+    setCycleConcerns((s) => (s.includes(v) ? s.filter((x) => x !== v) : [...s, v]));
+  const togglePeriodSport = (v: string) =>
+    setPeriodSports((s) => (s.includes(v) ? s.filter((x) => x !== v) : [...s, v]));
 
   const next = () => {
     // sub-flow for Account step
@@ -194,7 +189,6 @@ function Onboarding() {
     setStep(Math.max(0, step - 1));
   };
 
-  const coaches = coachGender === "male" ? MALE_COACHES : FEMALE_COACHES;
   const ageSeg = ageGroup(birthYear);
   const baseList =
     gender === "Woman" ? HEALTH_FEMALE : gender === "Man" ? HEALTH_MALE : HEALTH_COMMON;
@@ -313,10 +307,10 @@ function Onboarding() {
           )}
           {step === 2 && (
             <div>
-              <H>My OG Profile 🎤</H>
-              <P>add your info so your homie makes no-sus plan for ya</P>
+              <H>OG Profile 🎤</H>
+              <P>add your info so homie makes no-sus plan for ya</P>
               <div className="mt-6 grid gap-4 md:grid-cols-2">
-                <Field label="My birth month & year">
+                <Field label="Birth month & year">
                   <div className="flex gap-2">
                     <select
                       value={birthMonth}
@@ -338,7 +332,7 @@ function Onboarding() {
                     </select>
                   </div>
                 </Field>
-                <Field label="My gender">
+                <Field label="Gender">
                   <select
                     value={gender}
                     onChange={(e) => setGender(e.target.value as typeof gender)}
@@ -349,7 +343,7 @@ function Onboarding() {
                     ))}
                   </select>
                 </Field>
-                <Field label="My weight">
+                <Field label="Weight">
                   <div className="flex gap-2">
                     <Input placeholder={weightUnit === "lb" ? "160" : "73"} />
                     <UnitToggle
@@ -359,7 +353,7 @@ function Onboarding() {
                     />
                   </div>
                 </Field>
-                <Field label="My height">
+                <Field label="Height">
                   <div className="flex gap-2">
                     <Input placeholder={heightUnit === "in" ? `5'10"` : "178"} />
                     <UnitToggle
@@ -386,6 +380,72 @@ function Onboarding() {
                     <span>5 · Most active</span>
                   </div>
                 </Field>
+                {gender === "Woman" && (
+                  <Field label="Cycle check-in (we plan around it, no shame)" className="md:col-span-2">
+                    <p className="mb-2 text-xs text-muted-foreground">
+                      what does ur cycle actually do to you? tap all that hit.
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {[
+                        "Cramps that wreck me",
+                        "Mood swings / rage",
+                        "Bloating",
+                        "Energy crash",
+                        "Acne flares",
+                        "PMS anxiety",
+                        "Irregular AF",
+                        "PCOS vibes",
+                        "Heavy flow",
+                        "Nope, smooth sailing",
+                      ].map((c) => (
+                        <Chip key={c} active={cycleConcerns.includes(c)} onClick={() => toggleCycle(c)}>
+                          {c}
+                        </Chip>
+                      ))}
+                    </div>
+                    <p className="mt-4 mb-2 text-xs text-muted-foreground">
+                      do you move during ur period?
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {([
+                        ["yes", "yea I lock in"],
+                        ["kinda", "lowkey, light stuff"],
+                        ["no", "nah, I rest"],
+                      ] as const).map(([id, lbl]) => (
+                        <Chip key={id} active={exercisesDuringPeriod === id} onClick={() => setExercisesDuringPeriod(id)}>
+                          {lbl}
+                        </Chip>
+                      ))}
+                    </div>
+                    {exercisesDuringPeriod && exercisesDuringPeriod !== "no" && (
+                      <>
+                        <p className="mt-4 mb-2 text-xs text-muted-foreground">
+                          what's ur period-friendly move? pick ur faves.
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {[
+                            "Pilates / Reformer",
+                            "Yoga / yin flow",
+                            "Zone 2 walks",
+                            "Light strength",
+                            "Swimming",
+                            "Dance / barre",
+                          ].map((s) => (
+                            <Chip key={s} active={periodSports.includes(s)} onClick={() => togglePeriodSport(s)}>
+                              {s}
+                            </Chip>
+                          ))}
+                        </div>
+                        <Input
+                          className="mt-3"
+                          placeholder="other (drop it here, bestie)"
+                          value={periodSportOther}
+                          onChange={(e) => setPeriodSportOther(e.target.value)}
+                        />
+                      </>
+                    )}
+                  </Field>
+                )}
                 <Field label="Health restrictions / injuries" className="md:col-span-2">
                   <p className="mb-2 text-xs text-muted-foreground">
                     Common picks for {gender === "Woman" ? "women" : gender === "Man" ? "men" : "your profile"} — tap all that apply.
@@ -431,8 +491,8 @@ function Onboarding() {
           )}
           {step === 3 && (
             <div>
-              <H>What are you here for?</H>
-              <P>Pick all that apply — we'll prioritize them in your plan.</P>
+              <H>what u tryna lock in for? 👀</H>
+              <P>tap all that hit — we'll stack ur plan around 'em.</P>
               <div className="mt-5 flex flex-wrap gap-2">
                 {GOALS.map((g) => (
                   <Chip key={g} active={focus.includes(g)} onClick={() => toggle(g)}>
@@ -449,7 +509,7 @@ function Onboarding() {
                   type="range"
                   min={0}
                   max={TIMELINES.length - 1}
-                  value={timelineIdx}
+                  value={Math.min(timelineIdx, TIMELINES.length - 1)}
                   onChange={(e) => setTimelineIdx(Number(e.target.value))}
                   className="mt-3 w-full accent-[color:var(--primary)]"
                 />
@@ -463,8 +523,8 @@ function Onboarding() {
           )}
           {step === 4 && (
             <div>
-              <H>Lifestyle baseline</H>
-              <P>Last 7 days — gut answer is fine.</P>
+              <H>baseline check, no judgement</H>
+              <P>think last 7 days — gut answer wins.</P>
               <div className="mt-6 grid gap-5">
                 <Field label={`Sleep quality: ${SLEEP_LABELS[sleep - 1]}`}>
                   <input
@@ -530,26 +590,10 @@ function Onboarding() {
           )}
           {step === 5 && (
             <div>
-              <H>Who's in your ear?</H>
-              <P>The tone, slang, even the GIFs change. You can swap any time.</P>
-              <div className="mt-5 inline-flex rounded-full border border-border bg-secondary/50 p-1 text-xs font-medium">
-                {(["male", "female"] as const).map((g) => (
-                  <button
-                    key={g}
-                    onClick={() => {
-                      setCoachGender(g);
-                      setCharacter(g === "male" ? "kobe" : "zendaya");
-                    }}
-                    className={`rounded-full px-4 py-1.5 transition ${
-                      coachGender === g ? "bg-primary text-primary-foreground" : "text-muted-foreground"
-                    }`}
-                  >
-                    {g === "male" ? "Male coaches" : "Female coaches"}
-                  </button>
-                ))}
-              </div>
+              <H>Who's in your ear, bestie?</H>
+              <P>Pick your homie — the slang, the energy, the whole plan shifts with them. Swap any time.</P>
               <div className="mt-6 grid gap-3 md:grid-cols-2">
-                {coaches.map((c) => {
+                {CHARACTERS.map((c) => {
                   const active = character === c.id;
                   return (
                     <button
@@ -573,14 +617,14 @@ function Onboarding() {
                 })}
               </div>
               <p className="mt-3 text-[11px] text-muted-foreground">
-                Tip: more personas unlock in Coach.
+                psst — ur plan, diet, and chat tone all shift to match ur homie 🫶
               </p>
             </div>
           )}
           {step === 6 && (
             <div>
-              <H>Sync your wearables</H>
-              <P>The more we see, the smarter the plan. You can add more later.</P>
+              <H>plug in ur wearables 🔌</H>
+              <P>more data = smarter homie. add more whenever, no pressure.</P>
               <div className="mt-6 grid gap-3 md:grid-cols-2">
                 {[
                   "Apple Watch",
@@ -595,15 +639,7 @@ function Onboarding() {
                   "Muse Headband",
                   "Eight Sleep",
                   "Garmin",
-                  "Polar Vantage",
-                  "Coros Pace",
-                  "Suunto Race",
                   "Amazfit",
-                  "Withings ScanWatch",
-                  "Levels CGM",
-                  "Lumen Metabolism",
-                  "Apollo Neuro",
-                  "Bia Smart Yoga Pants",
                 ].map((d) => (
                   <label
                     key={d}
@@ -613,6 +649,40 @@ function Onboarding() {
                     <input type="checkbox" className="h-4 w-4 accent-[color:var(--primary)]" />
                   </label>
                 ))}
+              </div>
+              <div className="mt-4 rounded-2xl border border-dashed border-primary/40 bg-primary/5 p-4">
+                <p className="text-sm font-semibold text-ink">Others — ur device not on the list?</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  drop it + ur email, we'll hit u back when it's hooked up 🤝
+                </p>
+                <div className="mt-3 grid gap-2 md:grid-cols-2">
+                  <Input
+                    placeholder="device name (e.g. Polar Vantage)"
+                    value={wearableOther}
+                    onChange={(e) => setWearableOther(e.target.value)}
+                  />
+                  <Input
+                    type="email"
+                    placeholder="ur email"
+                    value={wearableOtherEmail}
+                    onChange={(e) => setWearableOtherEmail(e.target.value)}
+                  />
+                </div>
+                <button
+                  type="button"
+                  disabled={!wearableOther || !wearableOtherEmail}
+                  onClick={() => {
+                    void fetch("/api/public/wearable-request", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ device: wearableOther, email: wearableOtherEmail }),
+                    }).catch(() => {});
+                    setWearableOtherSent(true);
+                  }}
+                  className="mt-3 inline-flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground disabled:opacity-40"
+                >
+                  {wearableOtherSent ? "Sent ✓ — we got u" : "Request to add"}
+                </button>
               </div>
               <p className="mt-4 text-xs text-muted-foreground">
                 Optional: Spotify & Apple Music for your character workout playlist.
@@ -627,6 +697,7 @@ function Onboarding() {
               restrictions={restrictions}
               openDay={openDay}
               setOpenDay={setOpenDay}
+              character={character}
             />
           )}
 
@@ -660,9 +731,9 @@ function Onboarding() {
 
 function Welcome({ onNext }: { onNext: () => void }) {
   const bullets = [
-    { icon: Watch, text: "Connect Apple Watch, Samsung Galaxy Watch, Oura, Garmin & more." },
-    { icon: ShieldAlert, text: "Auto stop the Panic Attack storm in 3 secs." },
-    { icon: Sparkles, text: "Vibe Training with your favourite mentor with health plan ⛑️🧢" },
+    { icon: Sparkles, text: "Unlock Vibe Training plans with your favorite homie ❌🧢" },
+    { icon: Trophy, text: "Win Rizz Battles to Auramaxxing out your gang" },
+    { icon: Watch, text: "Connect Apple Watch, Samsung Galaxy Watch, Oura, Garmin, Fitbit & more." },
   ];
   return (
     <div className="text-center">
@@ -690,12 +761,14 @@ function Welcome({ onNext }: { onNext: () => void }) {
   );
 }
 
-const DAY_PLAN: {
+type DayPlan = {
   day: string;
   title: string;
   intensity: "Low" | "Medium" | "High";
   steps: string[];
-}[] = [
+};
+
+const DAY_PLAN: DayPlan[] = [
   { day: "Mon", title: "Mamba Push · 35-min upper + 5-min box breathing", intensity: "High",
     steps: ["Warm-up: 5 min jump rope", "DB Bench Press 4×8", "Pull-ups 4×6 (assisted ok)", "Seated Row 3×10", "Finisher: 5 min box breathing (4-4-4-4)"] },
   { day: "Tue", title: "Recovery walk + Mindfulness 10m", intensity: "Low",
@@ -712,6 +785,81 @@ const DAY_PLAN: {
     steps: ["10 min body-scan meditation", "Review week: wins, misses, energy", "Set 1 micro-goal for next week"] },
 ];
 
+// Persona-aware weekly plans (Disciplined / Longevity / Metabolic / Mental-health)
+const PERSONA_PLANS: Record<string, DayPlan[]> = {
+  alex: [
+    { day: "Mon", title: "Heavy Push · 45-min bench + OHP + finisher", intensity: "High",
+      steps: ["5 min row warm-up", "Bench Press 5×5", "OHP 4×6", "Weighted dips 3×AMRAP", "Finisher: farmer carries 4×40m"] },
+    { day: "Tue", title: "Sprint pyramid · HRR check", intensity: "High",
+      steps: ["Dynamic warm-up 5 min", "10-20-30-40-30-20-10s sprints / 60s off", "Track HRR @ 60s post-sprint", "Cool-down 5 min"] },
+    { day: "Wed", title: "Pull day · back + biceps", intensity: "High",
+      steps: ["Pull-ups 5×5", "Barbell row 4×8", "Lat pulldown 3×10", "Hammer curls 3×12"] },
+    { day: "Thu", title: "Active recovery · zone 2 + mobility", intensity: "Low",
+      steps: ["40 min zone 2 ruck", "10 min hip + shoulder mobility"] },
+    { day: "Fri", title: "Leg day · squat + DL", intensity: "High",
+      steps: ["Back squat 5×5", "RDL 4×8", "Walking lunges 3×12", "Calf raises 4×15"] },
+    { day: "Sat", title: "Hybrid · trail run + bodyweight", intensity: "Medium",
+      steps: ["5K trail run", "Push-up + pull-up ladder", "Plank 3×60s"] },
+    { day: "Sun", title: "Mobility + game film", intensity: "Low",
+      steps: ["20 min stretch flow", "Review week strain score", "Set next week PR target"] },
+  ],
+  zack: [
+    { day: "Mon", title: "Zone 2 base · 50 min HR-capped", intensity: "Medium",
+      steps: ["AM sunlight 10 min", "50 min HR <140 bpm bike/jog", "Nasal-only breathing"] },
+    { day: "Tue", title: "Strength · longevity protocol", intensity: "Medium",
+      steps: ["Goblet squat 3×10", "DB bench 3×10", "Row 3×10", "Carry 3×40m · slow + controlled"] },
+    { day: "Wed", title: "VO₂ max intervals · 4×4", intensity: "High",
+      steps: ["10 min warm-up", "4 min @ 90% HR / 3 min easy ×4", "Cool-down 5 min", "Log VO₂ trend"] },
+    { day: "Thu", title: "Recovery · sauna + cold", intensity: "Low",
+      steps: ["15 min sauna ×2", "2 min cold plunge", "20 min walk + magnesium tonight"] },
+    { day: "Fri", title: "Full body lift · tempo", intensity: "Medium",
+      steps: ["Deadlift 3×5", "OHP 3×8", "Pull-up 3×AMRAP", "Plank 3×45s"] },
+    { day: "Sat", title: "Long zone 2 · 75 min", intensity: "Medium",
+      steps: ["75 min hike or bike, HR <140", "Audiobook / podcast", "Electrolytes + protein after"] },
+    { day: "Sun", title: "Sleep stack reset", intensity: "Low",
+      steps: ["10 min breathwork", "Screens off 9pm", "Review HRV / RHR weekly trend"] },
+  ],
+  maddie: [
+    { day: "Mon", title: "Reformer Pilates · 50 min full body", intensity: "Medium",
+      steps: ["Footwork series", "Long box pulling straps", "Side-lying leg work", "Short box ab series"] },
+    { day: "Tue", title: "Incline walk · zone 2 + matcha", intensity: "Low",
+      steps: ["12-3-30 incline walk · 30 min", "Podcast on", "Protein matcha after"] },
+    { day: "Wed", title: "Mat Pilates + light DB", intensity: "Medium",
+      steps: ["100s + roll-up", "Single-leg circles", "DB lateral raise 3×12", "Glute bridge 3×15"] },
+    { day: "Thu", title: "Soft strength day", intensity: "Medium",
+      steps: ["Goblet squat 3×10", "Hip thrust 3×10", "DB row 3×10", "Ab finisher 5 min"] },
+    { day: "Fri", title: "Reformer cardio jumpboard", intensity: "Medium",
+      steps: ["10 min jumpboard intervals", "Tower work", "Stretch series"] },
+    { day: "Sat", title: "Long walk + brunch", intensity: "Low",
+      steps: ["60 min outdoor walk", "Protein-forward brunch", "Aura recharge"] },
+    { day: "Sun", title: "Stretch + sauna", intensity: "Low",
+      steps: ["20 min yin stretch", "15 min sauna", "Plan next week meals"] },
+  ],
+  riley: [
+    { day: "Mon", title: "Slow flow yoga · 45 min", intensity: "Low",
+      steps: ["10 min breathwork (box 4-4-4-4)", "30 min vinyasa flow", "5 min savasana"] },
+    { day: "Tue", title: "Walk + journaling", intensity: "Low",
+      steps: ["30 min outdoor walk no phone", "3-line gratitude journal", "EDA check-in"] },
+    { day: "Wed", title: "Yin yoga + somatic release", intensity: "Low",
+      steps: ["Hip openers 5 min holds", "Heart openers", "Body scan meditation 10 min"] },
+    { day: "Thu", title: "Light strength · gentle", intensity: "Medium",
+      steps: ["Bodyweight squats 3×10", "Push-ups (knee ok) 3×8", "Plank 3×30s"] },
+    { day: "Fri", title: "Restorative flow + breathwork", intensity: "Low",
+      steps: ["4-7-8 breath 5 min", "Restorative poses w/ bolsters", "Yoga nidra 15 min"] },
+    { day: "Sat", title: "Nature reset", intensity: "Low",
+      steps: ["60 min nature walk / forest bathing", "Sit + observe 10 min", "No screens till noon"] },
+    { day: "Sun", title: "Sunday quiet · prep + meditate", intensity: "Low",
+      steps: ["20 min meditation", "Tea ritual", "Set weekly intention"] },
+  ],
+};
+
+const PERSONA_DIET_DEFAULT: Record<string, string> = {
+  alex: "base",
+  zack: "Mediterranean",
+  maddie: "base",
+  riley: "Vegan",
+};
+
 function PlanReveal({
   focus,
   stress,
@@ -719,6 +867,7 @@ function PlanReveal({
   restrictions,
   openDay,
   setOpenDay,
+  character,
 }: {
   focus: string[];
   stress: number;
@@ -726,6 +875,7 @@ function PlanReveal({
   restrictions: string[];
   openDay: string | null;
   setOpenDay: (d: string | null) => void;
+  character: string;
 }) {
   // Per-day diverse diet rotation tuned to dietary preference
   const weeklyDietBank: Record<string, { meal: string; healthy: string; treat: string }[][]> = {
@@ -822,7 +972,10 @@ function PlanReveal({
         { meal: "Dinner", healthy: "Slow-roast lamb + couscous", treat: "Gelato scoop" } ],
     ],
   };
-  const week = weeklyDietBank[diet] ?? weeklyDietBank.base;
+  const personaDietKey = PERSONA_DIET_DEFAULT[character] ?? "base";
+  const dietKey = diet === "Omnivore" ? personaDietKey : diet;
+  const week = weeklyDietBank[dietKey] ?? weeklyDietBank.base;
+  const plan = PERSONA_PLANS[character] ?? DAY_PLAN;
   const restrictionNote =
     restrictions.length && !restrictions.includes("None")
       ? `Adjusted for: ${restrictions.filter((r) => r !== "None").slice(0, 3).join(", ")}`
@@ -836,7 +989,7 @@ function PlanReveal({
         {restrictionNote ? ` — ${restrictionNote.toLowerCase()}` : ""}. Swap any day before we start.
       </P>
       <div className="mt-6 space-y-2">
-        {DAY_PLAN.map((d, dayIdx) => {
+        {plan.map((d, dayIdx) => {
           const open = openDay === d.day;
           const meals = week[dayIdx % week.length];
           return (

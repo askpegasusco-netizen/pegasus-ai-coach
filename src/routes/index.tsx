@@ -109,13 +109,15 @@ function Index() {
             <h1 className="mt-5 font-display text-5xl font-semibold leading-[1.05] tracking-tight text-ink md:text-7xl">
               Vibe Training with my <VibeRotator />.
               <br />
-              Change Your Life in <span className="italic">Just 3 Seconds</span>.
+              <span className="italic">Where One Belief Leads?</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg text-muted-foreground">
-              Ask Pegasus for the rizz on your wearable biometrics mean, and actually get
-              no-sus fitness and mental plans 💪
+              Ask Pegasus what the rizz on your wearable biometrics mean, and actually get
+              no-sus fitness and wellness plans 💪
               <br />
-              Start Auramaxxing rn with your favorite AI Homie Coach. Let's go #PegasusFam 🔥
+              Start Auramaxxing rn with your favorite AI Homie.
+              <br />
+              Let's go #PegasusFam 🔥
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
@@ -132,10 +134,10 @@ function Index() {
                 Join Waitlist <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                to="/dashboard"
+                to="/community"
                 className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3 text-sm font-semibold text-foreground transition hover:bg-secondary"
               >
-                Preview the app
+                Join #PegaFam Chat
               </Link>
             </div>
             <p className="mt-4 text-xs text-muted-foreground">
@@ -162,6 +164,16 @@ function Index() {
                 <p className="mt-1 text-sm text-ink">
                   Cortisol's spicy today — swapped HIIT → mobility flow + magnesium-rich dinner.
                   We protect the nervous system first, no cap.
+                </p>
+              </div>
+              {/* Mamba-mentality homie box */}
+              <div className="mt-3 rounded-2xl border border-amber-300/50 bg-gradient-to-br from-amber-50 to-rose-50 p-3">
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-700">
+                  🐍 Homie Says · Mamba Mode
+                </p>
+                <p className="mt-1 text-sm italic text-ink">
+                  "yo bestie. ur reps for today? not done. ur PR? still waiting. come back rn, we
+                  lock in for 12 min — that's it. job's not finished, fam. 🔥"
                 </p>
               </div>
               <div className="mt-4 grid grid-cols-3 gap-3 text-center">
@@ -232,7 +244,7 @@ function Index() {
       </section>
 
       {/* Problem */}
-      <Section id="problem" eyebrow="The Problem" title="Wearables ≠ change. Robotic AI ≠ care.">
+      <Section id="problem" eyebrow="The Problem" title={"Wearables ≠ change.\nRobotic AI ≠ care."}>
         <div className="grid gap-5 md:grid-cols-4">
           {[
             [
@@ -252,7 +264,7 @@ function Index() {
             ],
             [
               "0",
-              "apps today combine identity-coached biometrics, mental-health auto-intervention, and one-tap booking.",
+              "apps today combine Gen Z persona-coaching, mental & physical health dual plans, and anti-generic-ass fitness drops. that's the gap, bestie.",
               "Pegasus competitive teardown, 2026.",
             ],
           ].map(([n, l, src]) => (
@@ -269,26 +281,27 @@ function Index() {
       {/* Solution */}
       <Section id="solution" eyebrow="The Solution" title="One app. Biometrics → action. In your voice.">
         <div className="grid gap-5 md:grid-cols-3">
-          <Pillar icon={Watch} title="Wearables that mean something">
-            Apple Watch, Oura, WHOOP, Eight Sleep, Muse, Meta Ray-Bans — all fused into one
-            biometric story your AI coach actually acts on.
+          <Pillar icon={Watch} title="Wearables that actually mean smth">
+            Connect your Apple Watch, Samsung Galaxy Watch, Oura, WHOOP, AmazFit, Fitbit, Eight
+            Sleep, Muse, Meta Ray-Bans — all fused into one biometric story your AI homie acts
+            on, no spreadsheet energy.
           </Pillar>
           <Pillar icon={Brain} title="Mental health, built in">
             Daily mood check-ins, peace score, and a panic button that auto-launches a
             calming protocol the second your stress spikes.
           </Pillar>
-          <Pillar icon={HeartPulse} title="Persona-coded character coach">
+          <Pillar icon={HeartPulse} title="Persona-coded homie coach">
             Pick your vibe — Gym Rat, Aura Farmer, Soft Girl, Zen Master, Rizzmaxxer,
-            Pilates Queen, Fibermaxxer, Sleepmaxxer — the AI speaks in that tone, with the
-            memes and GIFs Gen Z and Millennials actually respond to.
+            Pilates Queen, Fibermaxxer, Sleepmaxxer — speak to your homie and actually get
+            your shi done. nothing feels like a home win. 🏠
           </Pillar>
           <Pillar icon={Activity} title="Action plan with predicted outcomes">
             Weekly, monthly, quarterly plans with the predicted result — no more "what
             does 6.8 HRV even mean?"
           </Pillar>
           <Pillar icon={Trophy} title="PegaFam community + battles">
-            Friendly battles, leaderboards, Spotify-Wrapped-style shareable milestones.
-            Surprise boxes break the routine so you keep coming back.
+            Join the Rizz Battles to claim your W, then share your Aura Index Card, Rizz W/L
+            Card, and Slay Streak Card on IG, Snap, and text. Receipts only. 🏆
           </Pillar>
         </div>
       </Section>
@@ -395,7 +408,7 @@ function Section({
     <section id={id} className="mx-auto max-w-7xl px-6 py-16">
       <div className="mb-10 max-w-2xl">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">{eyebrow}</p>
-        <h2 className="mt-2 font-display text-4xl font-semibold text-ink md:text-5xl">{title}</h2>
+        <h2 className="mt-2 whitespace-pre-line font-display text-4xl font-semibold text-ink md:text-5xl">{title}</h2>
       </div>
       {children}
     </section>
