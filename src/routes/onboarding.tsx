@@ -4,12 +4,11 @@ import {
   ArrowRight,
   Check,
   Watch,
-  ShieldAlert,
+  Trophy,
   Sparkles,
   ChevronDown,
   ChevronUp,
   Upload,
-  Plus,
 } from "lucide-react";
 import { useState } from "react";
 import { PegasusLogo } from "@/components/PegasusLogo";
@@ -32,23 +31,7 @@ const STEPS = [
 type AccountSub = "choose" | "verify" | "name";
 type Provider = "apple" | "google" | "email" | "phone";
 
-const MALE_COACHES = [
-  { id: "lebron", name: "LeBron", tag: "Trained Like a King", sample: "Bron mode: 6am, no excuses. Let's eat. 👑", accent: "from-amber-200 to-orange-300" },
-  { id: "kobe", name: "Kobe — Mamba", tag: "Mamba Mentality", sample: "Job's not finished. One more rep.", accent: "from-purple-200 to-rose-200" },
-  { id: "ronaldo", name: "CR7", tag: "Siuuu Mode", sample: "Talent without working hard is nothing. Andiamo. ⚽", accent: "from-emerald-200 to-amber-200" },
-  { id: "kendall", name: "Kendall Roy", tag: "L to the OG", sample: "We are going to absolutely *cook* today, fam.", accent: "from-stone-200 to-amber-100" },
-  { id: "ali", name: "Muhammad Ali", tag: "Float Like a Butterfly", sample: "I am the greatest. I said that even before I knew I was.", accent: "from-amber-100 to-yellow-200" },
-  { id: "batman", name: "Batman", tag: "Dark Knight Discipline", sample: "It's not who I am underneath — it's what I do. 300 reps. Now.", accent: "from-zinc-300 to-stone-400" },
-];
-
-const FEMALE_COACHES = [
-  { id: "zendaya", name: "Z", tag: "Soft Girl Strong", sample: "We protecting our peace AND our protein today.", accent: "from-rose-200 to-amber-100" },
-  { id: "serena", name: "Serena", tag: "Queen of the Court", sample: "Pressure is a privilege. Step up, sis.", accent: "from-rose-200 to-fuchsia-200" },
-  { id: "simone", name: "Simone Biles", tag: "GOAT Energy", sample: "Mental health first. Then we flip.", accent: "from-pink-200 to-amber-200" },
-  { id: "taylor", name: "Tay", tag: "Era Mode", sample: "It's a new era — we're tracking sleep AND songwriting today.", accent: "from-stone-200 to-rose-200" },
-  { id: "bey", name: "Beyoncé", tag: "Run the World", sample: "If we gonna do this, we gonna do it flawless.", accent: "from-amber-200 to-rose-300" },
-  { id: "gg", name: "Girls' Generation", tag: "K-pop Power", sample: "Gee gee gee — one more set, baby baby baby.", accent: "from-rose-200 to-fuchsia-200" },
-];
+import { CHARACTERS } from "@/lib/pegasus";
 
 const GOALS = [
   "Weight control",
@@ -68,7 +51,7 @@ const GOALS = [
   "Surprise Me",
 ];
 
-const TIMELINES = ["2 weeks", "1 month", "3 months", "6 months", "9 months", "1 year"];
+const TIMELINES = ["2 weeks", "1 month", "2 months", "3 months", "6 months"];
 const SLEEP_LABELS = ["Very Bad", "Bad", "OK", "Good", "Very Good"];
 const STRESS_LABEL = (n: number) =>
   n <= 1 ? "Least stressed" : n <= 4 ? "Mild" : n === 5 ? "Moderate" : n <= 8 ? "High" : "Very stressed";
@@ -150,13 +133,21 @@ function Onboarding() {
   const [diet, setDiet] = useState("Omnivore");
   const [headState, setHeadState] = useState<string | null>(null);
   const [workoutStyle, setWorkoutStyle] = useState<string>("let try it first");
+  // female cycle questions
+  const [cycleConcerns, setCycleConcerns] = useState<string[]>([]);
+  const [exercisesDuringPeriod, setExercisesDuringPeriod] = useState<"yes" | "kinda" | "no" | null>(null);
+  const [periodSports, setPeriodSports] = useState<string[]>([]);
+  const [periodSportOther, setPeriodSportOther] = useState("");
+  // wearables others
+  const [wearableOther, setWearableOther] = useState("");
+  const [wearableOtherEmail, setWearableOtherEmail] = useState("");
+  const [wearableOtherSent, setWearableOtherSent] = useState(false);
   // account sub-flow
   const [accountSub, setAccountSub] = useState<AccountSub>("choose");
   const [provider, setProvider] = useState<Provider | null>(null);
   const [name, setName] = useState("");
   // coach
-  const [coachGender, setCoachGender] = useState<"male" | "female">("male");
-  const [character, setCharacter] = useState("kobe");
+  const [character, setCharacter] = useState(CHARACTERS[0].id);
   // plan reveal
   const [openDay, setOpenDay] = useState<string | null>("Mon");
   const navigate = useNavigate();
@@ -165,6 +156,10 @@ function Onboarding() {
     setFocus((s) => (s.includes(v) ? s.filter((x) => x !== v) : [...s, v]));
   const toggleRestriction = (v: string) =>
     setRestrictions((s) => (s.includes(v) ? s.filter((x) => x !== v) : [...s, v]));
+  const toggleCycle = (v: string) =>
+    setCycleConcerns((s) => (s.includes(v) ? s.filter((x) => x !== v) : [...s, v]));
+  const togglePeriodSport = (v: string) =>
+    setPeriodSports((s) => (s.includes(v) ? s.filter((x) => x !== v) : [...s, v]));
 
   const next = () => {
     // sub-flow for Account step
@@ -194,7 +189,6 @@ function Onboarding() {
     setStep(Math.max(0, step - 1));
   };
 
-  const coaches = coachGender === "male" ? MALE_COACHES : FEMALE_COACHES;
   const ageSeg = ageGroup(birthYear);
   const baseList =
     gender === "Woman" ? HEALTH_FEMALE : gender === "Man" ? HEALTH_MALE : HEALTH_COMMON;
