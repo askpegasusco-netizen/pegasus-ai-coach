@@ -44,18 +44,14 @@ function Coach() {
     setTyping(true);
     setTimeout(() => {
       const replies: Record<string, string> = {
-        gymrat: "bro 20 min is nothing, rack it up. mobility + 1 light push set. we eat after. 😤",
-        aurafarmer: "no talk. 20 min mobility. aura points only go up when u show up. 🗿",
-        softgirl: "babe — slow flow, candle on, matcha after. protecting the peace today 🌸",
-        zenmaster: "box breath 4-4-8, then 20 min mobility. the body's asking, listen.",
-        rizzmaxxer: "20 min flow, posture work, fit check after. W rizz loading. 💅",
-        pilatesqueen: "reformer-style mat flow, 20 min. ribs down, scoop, breathe. tiny but lethal.",
-        fibermaxxer: "20 min mobility + chia bowl after. gut + joints, both winning today. 🌱",
-        sleepmaxxer: "skip the lift. 20 min mobility, magnesium tonight, screens off by 9. REM maxxing. 🌙",
+        alex: "bro 20 min ain't a rest day, that's a deload. mobility + 1 light push set. we eat after. 😤",
+        zack: "tired = data. HRV's prob low. 20 min zone 2 walk, sunlight, magnesium tonight. we play the long game. 🧬",
+        maddie: "babe — reformer-style mat flow, 20 min. ribs down, scoop, breathe. tiny but lethal. 🩰",
+        riley: "the body is asking, listen. box breath 4-4-8, then 20 min slow yin flow. peace > PR today. 🌿",
       };
       setMsgs((m) => [
         ...m,
-        { id: crypto.randomUUID(), from: "coach", text: replies[character.id] ?? replies.gymrat },
+        { id: crypto.randomUUID(), from: "coach", text: replies[character.id] ?? replies.alex },
       ]);
       setTyping(false);
     }, 900);
