@@ -524,26 +524,10 @@ function Onboarding() {
           )}
           {step === 5 && (
             <div>
-              <H>Who's in your ear?</H>
-              <P>The tone, slang, even the GIFs change. You can swap any time.</P>
-              <div className="mt-5 inline-flex rounded-full border border-border bg-secondary/50 p-1 text-xs font-medium">
-                {(["male", "female"] as const).map((g) => (
-                  <button
-                    key={g}
-                    onClick={() => {
-                      setCoachGender(g);
-                      setCharacter(g === "male" ? "kobe" : "zendaya");
-                    }}
-                    className={`rounded-full px-4 py-1.5 transition ${
-                      coachGender === g ? "bg-primary text-primary-foreground" : "text-muted-foreground"
-                    }`}
-                  >
-                    {g === "male" ? "Male coaches" : "Female coaches"}
-                  </button>
-                ))}
-              </div>
+              <H>Who's in your ear, bestie?</H>
+              <P>Pick your homie — the slang, the energy, the whole plan shifts with them. Swap any time.</P>
               <div className="mt-6 grid gap-3 md:grid-cols-2">
-                {coaches.map((c) => {
+                {CHARACTERS.map((c) => {
                   const active = character === c.id;
                   return (
                     <button
@@ -567,7 +551,7 @@ function Onboarding() {
                 })}
               </div>
               <p className="mt-3 text-[11px] text-muted-foreground">
-                Tip: more personas unlock in Coach.
+                psst — ur plan, diet, and chat tone all shift to match ur homie 🫶
               </p>
             </div>
           )}
@@ -654,9 +638,9 @@ function Onboarding() {
 
 function Welcome({ onNext }: { onNext: () => void }) {
   const bullets = [
-    { icon: Watch, text: "Connect Apple Watch, Samsung Galaxy Watch, Oura, Garmin & more." },
-    { icon: ShieldAlert, text: "Auto stop the Panic Attack storm in 3 secs." },
-    { icon: Sparkles, text: "Vibe Training with your favourite mentor with health plan ⛑️🧢" },
+    { icon: Sparkles, text: "Unlock Vibe Training plans with your favorite homie ❌🧢" },
+    { icon: Trophy, text: "Win Rizz Battles to Auramaxxing out your gang" },
+    { icon: Watch, text: "Connect Apple Watch, Samsung Galaxy Watch, Oura, Garmin, Fitbit & more." },
   ];
   return (
     <div className="text-center">
